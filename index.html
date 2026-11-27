@@ -375,6 +375,9 @@ html,body{margin:0;height:100%;background:#0c080d;overflow:hidden;font:600 16px/
 .bt-go:active,.bt-sq:active{transform:translateY(.1em);box-shadow:inset 0 0 0 .1em var(--gold),0 .05em 0 #0c070b}
 .bt-go:focus-visible,.bt-sq:focus-visible,.bt-hanko:focus-visible{outline:.15em solid var(--gold);outline-offset:.2em}
 @media (max-aspect-ratio:1.5){.bt-sq{width:4.6em;height:4.8em}}
+#title .cast{padding-bottom:calc(var(--plankH,30px)*.64)}
+#title .cast::before{height:var(--plankH,30px);left:0;right:0;bottom:0;background:var(--plank) left top/100% 100% no-repeat;image-rendering:pixelated;border-radius:0;box-shadow:none;filter:drop-shadow(0 .35em .4em rgba(0,0,0,.55))}
+
 
 /* ---------- livre des Oni : pages de washi, sceaux et encre ---------- */
 .bk-count{color:var(--ink);background:linear-gradient(#f6ecd4,#e2cfa6);border-radius:1em;padding:.2em .9em;font-weight:800;box-shadow:0 0 0 2px var(--ink)}
@@ -1550,7 +1553,7 @@ const kobanHTML=()=>`<img src="${KOBAN}" alt="">${SV.koban} koban`;
 function goTitle(){hideAll();setState('title');$('#hud').classList.add('off');show('#title',true);$('#chestCount').textContent=SV.chests.length||'';$('#chestCount').style.display=SV.chests.length?'':'none';
   const st=Object.values(SV.stars).reduce((a,b)=>a+b,0),done=Object.keys(SV.stars).length;$('#tStars').textContent=st;$('#tStarsMax').textContent='/'+LEVELS.length*3;$('#tBar').style.width=(done/LEVELS.length*100)+'%';$('#tLv').textContent=`${done}/${LEVELS.length} terres libérées`;{const nb=SV.seen.length-(SV.bookSeen||0);$('#bookNew').textContent=nb>0?nb:''}$('#tMute').setAttribute('aria-pressed',muted);$('#tKoban').innerHTML=kobanHTML();
   const NL=LEVELS.length;$('#tProg').textContent=done>=NL?'Toutes les terres libérées':`Niveau ${Math.min(NL,done+1)} · ${LEVELS[Math.min(NL-1,done)].name}`;
-  $('#cast').innerHTML=SV.deck.filter(Boolean).map((k,i)=>`<div class="hero" style="--d:${i*.37}s"><img src="${ICONS[k]}" alt="${CL[k].name}"><span>${CL[k].name}</span></div>`).join('')}
+  $('#cast').innerHTML=SV.deck.filter(Boolean).map((k,i)=>`<div class="hero" style="--d:${i*.37}s"><img src="${ICONS[k]}" alt="${CL[k].name}"><span>${CL[k].name}</span></div>`).join('');requestAnimationFrame(placePlank)}
 /* ---------- carte du pays illustrée ---------- */
 const WMW=320,WMH=180;
 const WNODES=[[46,146],[80,132],[108,114],[138,126],[166,106],[194,92],[224,116],[246,74],[274,58],[298,30]];
@@ -1656,6 +1659,33 @@ function goLevelsCard(){const i=wSel,L=LEVELS[i],st=SV.stars[i+1]||0,th=GEN[i]?G
   $('#wPlay').onclick=()=>{initAudio();startLevel(i)}}
 function startLevel(i){if(!SV.deck.some(Boolean)){goTeam();return}hideAll();reset(i);setState('play');renderDeck();$('#hud').classList.remove('off');$('#hint').style.opacity=1;preview();sfx('build');bannerTxt(LV.kj,`Niveau ${i+1} — ${LV.name}`)}
 
+
+/* ---------- étagère en bois sous les héros de l'écran titre (pixel art dessiné en code) ---------- */
+function drawPlank(w){const H=17,[c,g]=mk(w,H),K='#150a0e';
+  const pat=(rows,x0,y0,flip)=>rows.forEach((r,y)=>[...r].forEach((ch,x)=>{const C={K,G:'#f2bc3c',Y:'#ffe08a',g:'#b8781e',D:'#3a1a12'}[ch];if(C)P(g,flip?x0-x:x0+x,y0+y,C)}));
+  // plateau clair, légèrement en retrait
+  R(g,5,0,w-10,1,K);
+  const top=['#e6cdb4','#d6b89e','#d0b096','#bd9c82'];
+  for(let y=1;y<5;y++){R(g,4,y,w-8,1,top[y-1]);for(let x=6;x<w-6;x++){const h=hash(x>>1,y+((x>>3)%3));if(y>1&&h>.86)P(g,x,y,'#c4a488');else if(y<4&&h<.06)P(g,x,y,'#ecd8c4')}}
+  for(let x=10;x<w-10;x+=23){const L=6+(x*7%5);for(let k=0;k<L;k++)P(g,x+k,1+((k>>1)%3),'#c9aa90')}
+  R(g,4,1,1,4,K);R(g,w-5,1,1,4,K);
+  // filet sombre, filet doré, façade
+  R(g,1,5,w-2,1,K);R(g,1,6,w-2,1,'#ffd06a');R(g,1,7,w-2,1,'#e0a030');R(g,1,8,w-2,1,'#7a4a1a');
+  const fr=['#6e3424','#62301f','#56291b'];for(let y=9;y<12;y++){R(g,1,y,w-2,1,fr[y-9]);for(let x=2;x<w-2;x++)if(hash(x>>2,y)>.9)P(g,x,y,'#7a3c28')}
+  R(g,1,12,w-2,1,'#3a1a12');R(g,2,13,w-4,1,K);R(g,0,5,1,8,K);R(g,w-1,5,1,8,K);
+  // pieds
+  for(const fx of[3,w-12]){R(g,fx,14,9,2,'#4a2216');R(g,fx,14,9,1,'#5e2c1c');R(g,fx-1,14,1,2,K);R(g,fx+9,14,1,2,K);R(g,fx,16,9,1,K)}
+  // volutes dorées aux extrémités
+  const cap=['KKKKKKK','KYGGGGK','KGKKKGK','KGKYgGK','KGKKKKK','KGGGGGG','KgggggK','KKKKKKK'];
+  pat(cap,0,5,0);pat(cap,w-1,5,1);
+  // ornement central
+  const o=['....K....','...KYK...','..KYGgK..','.KYGYGgK.','KYGgKGggK','.KGgGggK.','..KGggK..','...KgK...','....K....'];
+  pat(o,(w>>1)-4,4,0);
+  return c}
+function placePlank(){const el=$('#cast');if(!el||!$('#title').classList.contains('show'))return;const r=el.getBoundingClientRect();if(!r.width)return;
+  const u=parseFloat(getComputedStyle(document.body).getPropertyValue('--u'))||7,s=Math.max(2,Math.round(u*6.8/17)),w=Math.max(40,Math.round(r.width/s));
+  el.style.setProperty('--plank',`url(${drawPlank(w).toDataURL()})`);el.style.setProperty('--plankH',(17*s)+'px')}
+addEventListener('resize',()=>requestAnimationFrame(placePlank));
 /* ---------- livre des Oni ---------- */
 const BOOK={
  aka:{d:"Le soldat de base de la horde, massue à l'épaule. Ni rapide ni très solide, mais toujours en nombre.",

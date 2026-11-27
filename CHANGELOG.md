@@ -2,6 +2,12 @@
 
 Les changements notables de YokusoTD, du plus récent au plus ancien.
 
+## 1.1.1 · 27 novembre 2026
+
+### Modifié
+
+- Sur l'écran titre, les héros se tiennent sur une étagère en bois laqué (plateau clair, filet doré, volutes et ornement central) à la place de la dalle de pierre. Elle s'adapte au nombre de personnages de l'équipe.
+
 ## 1.1.0 · 27 novembre 2026
 
 ### Ajouté

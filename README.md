@@ -10,9 +10,11 @@ Fonctionne sur ordinateur et sur mobile (en paysage). Rien à installer : un seu
 
 <p align="center"><img src="docs/images/jeu.png" width="820" alt="Partie en cours : à gauche le panneau d'amélioration d'un archer avec ses deux voies, à droite la barre d'équipe"></p>
 
+<p align="center"><img src="docs/images/carte.png" width="820" alt="Carte du pays : archipel en pixel art, dix sceaux reliés par une route, des cerisiers au sud-ouest à l'île de la Porte des Oni au nord-est"></p>
+
 ## Comment jouer
 
-1. Choisis un niveau sur la carte du pays.
+1. Choisis un niveau sur la carte du pays : touche un sceau pour voir sa fiche, retouche-le ou appuie sur « Jouer » pour le lancer.
 2. Glisse un personnage depuis la barre de droite et lâche-le sur le terrain. Le cercle montre sa portée ; il devient rouge si l'endroit est interdit (chemin, eau, décor).
 3. Lance la vague avec le gros bouton rond. Chaque Oni tué rapporte des pièces.
 4. Touche un personnage posé pour l'améliorer : au premier niveau, tu choisis une de ses deux voies d'évolution, puis tu la montes jusqu'au niveau 5.

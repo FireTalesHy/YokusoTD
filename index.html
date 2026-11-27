@@ -296,6 +296,30 @@ html,body{margin:0;height:100%;background:#0c080d;overflow:hidden;font:600 16px/
 .rlegend span{display:inline-flex;align-items:center;gap:.3em}
 .rlegend i{width:.8em;height:.8em;border-radius:.2em;background:var(--rc)}
 .ro small .ic,.det .ic{width:1em;height:1em;vertical-align:-.15em}
+/* carte du pays */
+.wbody{display:flex;align-items:center;justify-content:center;padding:.6em 1em 1em;overflow:hidden}
+.wmap{position:relative;height:100%;max-width:100%;aspect-ratio:16/9;border-radius:.4em;box-shadow:0 0 0 .3em #2a1c26,0 0 0 .45em #c9a35a,0 1em 2em rgba(0,0,0,.6);background:#3a7698}
+.wmap img{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated;border-radius:.4em}
+.wmap::after{content:"";position:absolute;inset:0;border-radius:.4em;pointer-events:none;box-shadow:inset 0 0 3em rgba(40,20,10,.45)}
+.wn{position:absolute;transform:translate(-50%,-62%);width:2.5em;height:2.5em;border:0;padding:0;cursor:pointer;border-radius:50%;background:radial-gradient(circle at 40% 35%,#fbf2dd,#e2cfa6 70%,#c7ae80);box-shadow:0 0 0 .18em #1c1220,0 .3em .6em rgba(0,0,0,.5);color:#1c1220;font:inherit;z-index:1;transition:transform .15s}
+.wn span{font:normal 1.2em/1 "Yuji Syuku",serif}
+.wn i{position:absolute;left:50%;top:100%;transform:translate(-50%,.15em);font-style:normal;font-weight:800;font-size:.72em;white-space:nowrap;background:#1c1220;color:#f6ecd4;padding:0 .45em;border-radius:.6em;line-height:1.4}
+.wn.done{background:radial-gradient(circle at 40% 35%,#ff8a6a,#d4402c 65%,#8e2420);color:#fff1de;box-shadow:0 0 0 .18em #1c1220,0 0 0 .32em #e2b24c,0 .3em .6em rgba(0,0,0,.5)}
+.wn.done i{color:#e2b24c}
+.wn.next{animation:wpulse 1.5s ease-in-out infinite}
+@keyframes wpulse{50%{box-shadow:0 0 0 .18em #1c1220,0 0 0 .5em rgba(255,236,170,.6),0 .3em .6em rgba(0,0,0,.5)}}
+.wn.sel{transform:translate(-50%,-62%) scale(1.22);z-index:2}
+.wn.lock{background:#3a2e36;color:#8a7e86;cursor:default;box-shadow:0 0 0 .18em #1c1220}
+.wn.lock i{opacity:.6}
+.wn:hover:not(.lock){transform:translate(-50%,-62%) scale(1.15)}
+.wn:focus-visible{outline:2px solid #e2b24c;outline-offset:3px}
+.wcard{position:absolute;left:2%;top:3%;display:flex;align-items:center;gap:.7em;max-width:62%;padding:.5em .6em;background:linear-gradient(#f6ecd4,#e7d5ae);color:var(--ink);border-radius:.4em 1em .5em .9em/.9em .5em 1em .4em;box-shadow:0 0 0 3px var(--ink),0 .5em 1.2em rgba(0,0,0,.5);z-index:3;animation:pop .2s both}
+.wcard .th{width:6.5em;aspect-ratio:16/9;flex:none;border-radius:.25em;background:#3a2a30 center/cover;image-rendering:pixelated;box-shadow:0 0 0 2px var(--ink)}
+.wcard .tx{display:flex;flex-direction:column;line-height:1.15;min-width:0}
+.wcard b{font-size:1.1em;font-weight:800}
+.wcard small{font-size:.75em;opacity:.7}
+.wcard .st{color:var(--red);letter-spacing:.08em}.wcard .st .off{color:rgba(28,18,32,.2)}
+.wcard .btn{height:2.6em;flex:none}
 </style>
 </head>
 <body>
@@ -340,7 +364,7 @@ html,body{margin:0;height:100%;background:#0c080d;overflow:hidden;font:600 16px/
   </div>
   <div class="menu" id="levels">
     <div class="mhead"><button class="btn" id="lvBack" aria-label="Retour">‹</button><h2>Carte du pays <span>国図</span></h2><span class="koban" id="lvKoban"></span><button class="btn" id="lvTeam"><span class="k">編</span>Équipe</button><button class="btn gold" id="lvChest"><span class="k">宝</span>Coffres <span id="lvChestN"></span></button></div>
-    <div class="mbody"><div class="lgrid" id="lgrid"></div></div>
+    <div class="mbody wbody"><div class="wmap"><img id="wimg" alt="Carte du pays : dix terres reliées par une route, de la vallée des cerisiers au sud-ouest jusqu'à l'île de la Porte des Oni au nord-est"><div id="wnodes"></div><div class="wcard" id="wcard"></div></div></div>
   </div>
   <div class="menu" id="chests">
     <div class="mhead"><button class="btn" id="chBack" aria-label="Retour">‹</button><h2>Coffres <span>宝蔵</span></h2><span class="koban" id="chKoban"></span></div>
@@ -1314,11 +1338,64 @@ function goTitle(){hideAll();setState('title');$('#hud').classList.add('off');sh
   const st=Object.values(SV.stars).reduce((a,b)=>a+b,0),done=Object.keys(SV.stars).length;$('#tStars').textContent=st;$('#tKoban').innerHTML=kobanHTML();
   $('#tProg').textContent=done>=10?'Toutes les terres libérées':`Niveau ${Math.min(10,done+1)} · ${LEVELS[Math.min(9,done)].name}`;
   $('#cast').innerHTML=SV.deck.filter(Boolean).map((k,i)=>`<div class="hero" style="--d:${i*.37}s"><img src="${ICONS[k]}" alt="${CL[k].name}"><span>${CL[k].name}</span></div>`).join('')}
+/* ---------- carte du pays illustrée ---------- */
+const WMW=320,WMH=180;
+const WNODES=[[46,146],[80,132],[108,114],[138,126],[166,106],[194,92],[224,116],[246,74],[274,58],[298,30]];
+let WMAP=null,wSel=0;
+function genWorld(){
+  const[c,g]=mk(WMW,WMH),id=g.createImageData(WMW,WMH),d=id.data;seed=4242;
+  const spine=WNODES.slice(0,9),thc=LEVELS.map(L=>TH[L.th]);
+  const dSeg=(x,y)=>{let m=1e9;for(let i=0;i<spine.length-1;i++){const[a,b]=[spine[i],spine[i+1]];m=Math.min(m,dseg(x,y,a[0],a[1],b[0],b[1]))}return m};
+  const land=new Float32Array(WMW*WMH),reg=new Uint8Array(WMW*WMH);
+  for(let y=0;y<WMH;y++)for(let x=0;x<WMW;x++){const n=fbm(x*.045,y*.045),i=y*WMW+x;
+    const w1=17+clamp((90-x)/25,0,1)*6+n*12,dm=dSeg(x,y)-w1,dk=Math.hypot((x-298)*.9,(y-30)*1.3)-(13+n*7),dk2=Math.hypot(x-240,y-150)-(6+n*6),dk3=Math.hypot(x-34,y-160)-(9+n*6);
+    land[i]=Math.min(dm,dk,dk2,dk3);const jx=x+(fbm(x*.07+9,y*.07)-.5)*26,jy=y+(fbm(x*.07,y*.07+7)-.5)*26;let bi=0,bd=1e9;for(let k=0;k<10;k++){const q=(jx-WNODES[k][0])**2+(jy-WNODES[k][1])**2;if(q<bd){bd=q;bi=k}}reg[i]=dk<0?9:bi}
+  for(let y=0;y<WMH;y++)for(let x=0;x<WMW;x++){const i=y*WMW+x,l=land[i],n=fbm(x*.09+3,y*.09),dz=bay(x,y);let col;
+    if(l>0){const deep=clamp(l/22,0,1),k=Math.floor(deep*3+dz*.9-.3);col=hex(['#7bbccc','#4f95b4','#3a7698','#2a5a7e'][clamp(k,0,3)]);
+      if(l<2.5)col=hex('#cfe8e6');else if(((x+Math.floor(y*1.7))%11==0)&&(y%5==0)&&deep>.3)col=hex('#a8d8e0')}
+    else if(l>-2){col=hex(reg[i]==9?'#5a4048':reg[i]==7?'#e8eef4':'#e2cf9e')}
+    else{const T=thc[reg[i]],k=clamp(Math.floor(n*3.6+dz*.9-.4+(l<-12?.6:0)),0,4);col=hex(T.gr[k])}
+    d[i*4]=col[0];d[i*4+1]=col[1];d[i*4+2]=col[2];d[i*4+3]=255}
+  g.putImageData(id,0,0);
+  const L=(x,y)=>x>=0&&y>=0&&x<WMW&&y<WMH&&land[(y|0)*WMW+(x|0)]<-3,R0=(x,y)=>reg[(y|0)*WMW+(x|0)];
+  const mtn=(x,y,h,c1,c2,cap)=>{for(let k=0;k<h;k++){const w=Math.round(k*1.1);R(g,x-w,y-h+k,w+1,1,c1);R(g,x+1,y-h+k,w,1,c2)}if(cap)for(let k=0;k<Math.round(h*.35);k++){const w=Math.round(k*1.1);R(g,x-w,y-h+k,w*2+1,1,k?'#e8eef4':'#ffffff')}};
+  // décor par région
+  for(let t=0;t<1600;t++){const x=rnd()*WMW|0,y=rnd()*WMH|0;if(!L(x,y))continue;const r=R0(x,y),th=LEVELS[r].th;if(Math.hypot(x-WNODES[r][0],y-WNODES[r][1])<7)continue;const q=rnd();
+    if(th=='spring'&&q<.35){P(g,x,y,'#5a3a2a');P(g,x,y-1,'#f2a8c0');P(g,x-1,y-2,'#f6c6d4');P(g,x+1,y-2,'#e889a8');P(g,x,y-2,'#ffe2ea')}
+    else if(th=='paddy'&&q<.3&&x%4<2){R(g,x,y,3,2,'#9ccf6a');P(g,x,y,'#c8e890');P(g,x+2,y+1,'#4f8a3a')}
+    else if(th=='bamboo'&&q<.4){R(g,x,y-3,1,4,'#3f7a2e');P(g,x,y-3,'#8fc860');P(g,x+1,y-2,'#2f5a22')}
+    else if(th=='autumn'&&q<.35){P(g,x,y,'#5a3a2a');P(g,x,y-1,'#d8582a');P(g,x-1,y-2,'#e8862a');P(g,x+1,y-2,'#b83a1e');P(g,x,y-2,'#f2b04a')}
+    else if(th=='village'&&q<.12){R(g,x,y,3,2,'#e9dcc0');R(g,x-1,y-1,5,1,'#4a3a32');P(g,x+1,y-2,'#4a3a32');P(g,x+1,y+1,'#6b4226')}
+    else if(th=='swamp'&&q<.15){R(g,x,y,3,1,'#2e4a46');P(g,x+1,y,'#5f8a7a')}
+    else if(th=='coast'&&q<.2){P(g,x,y,'#4a3a2a');P(g,x,y-1,'#2f5a3a');P(g,x-1,y-1,'#3f6a46');P(g,x+1,y-2,'#2f5a3a')}
+    else if(th=='winter'&&q<.08)mtn(x,y,5+(rnd()*3|0),'#9aa8bc','#7a889c',1)
+    else if(th=='volcano'&&q<.25){P(g,x,y,'#2a1c20');if(q<.05)P(g,x,y,'#ff7a2a')}
+    else if(th=='kimon'&&q<.25){P(g,x,y,q<.08?'#c8372d':'#2a1820')}}
+  mtn(214,96,18,'#8a8aa8','#6a6a88',1);mtn(206,92,9,'#7a7a98','#5a5a78',1);mtn(226,94,11,'#7a7a98','#5a5a78',1);// Fuji
+  mtn(268,52,13,'#4a3034','#2a1c20',0);for(let k=0;k<4;k++)P(g,268,40+k,k%2?'#ff9a3a':'#ffd27a');P(g,267,39,'#ff7a2a');P(g,269,38,'#ffb84a');// volcan
+  // torii sur l'île des Oni
+  R(g,292,18,1,6,'#c8372d');R(g,300,18,1,6,'#c8372d');R(g,290,17,13,1,'#1c1220');R(g,291,19,11,1,'#c8372d');
+  // nuages
+  for(const[x,y]of[[20,20],[120,30],[190,150],[280,140],[60,80],[150,58]]){ell(g,x,y,7,2,'#f6f0e2');ell(g,x+5,y-1,4,2,'#ffffff');R(g,x-6,y+2,13,1,'#d8d0c0')}
+  // rose des vents
+  const rx=24,ry=50;for(let k=-5;k<=5;k++){P(g,rx+k,ry,'#6a5034');P(g,rx,ry+k,'#6a5034')}P(g,rx,ry-6,'#c8372d');P(g,rx,ry-7,'#c8372d');ell(g,rx,ry,1,1,'#e2b24c');
+  WMAP=c}
+function drawRoad(){const[c,g]=mk(WMW,WMH);g.drawImage(WMAP,0,0);
+  for(let i=0;i<9;i++){const[a,b]=[WNODES[i],WNODES[i+1]],n=Math.hypot(b[0]-a[0],b[1]-a[1])|0,done=!!SV.stars[i+1];
+    for(let k=0;k<=n;k++){const t=k/n,x=Math.round(lerp(a[0],b[0],t)+Math.sin(t*Math.PI)*((i%2)?4:-4)),y=Math.round(lerp(a[1],b[1],t));if(done){P(g,x,y+1,'#3a0f14');P(g,x,y,'#d4402c')}else if(k%3==0){P(g,x,y+1,'#3a2a20');P(g,x,y,'#f6ecd4')}}}
+  return c.toDataURL()}
 function goLevels(){hideAll();setState('menu');$('#hud').classList.add('off');show('#levels',true);
   $('#lvKoban').innerHTML=kobanHTML();$('#lvChestN').textContent=SV.chests.length?`(${SV.chests.length})`:'';
-  $('#lgrid').innerHTML=LEVELS.map((L,i)=>{const un=unlockedLv(i),st=SV.stars[i+1]||0,th=GEN[i]?GEN[i].thumb:'';
-    return`<button class="lv" data-i="${i}" ${un?'':'disabled'} aria-label="Niveau ${i+1}, ${L.name}"><span class="th" style="${th?`background-image:url(${th})`:''}"></span><span class="no">${i+1}</span><span class="kj">${un?L.kj:'封'}</span><span class="nm">${L.name}<small>${L.waves} vagues${L.boss?' · boss':''}${SV.best[i+1]?` · ∞ ${SV.best[i+1]}`:''}</small></span><span class="st">${[0,1,2].map(k=>`<span class="${k<st?'':'off'}">★</span>`).join('')}</span></button>`}).join('');
-  $('#lgrid').querySelectorAll('.lv').forEach(b=>b.onclick=()=>{initAudio();startLevel(+b.dataset.i)})}
+  if(!WMAP)genWorld();$('#wimg').src=drawRoad();
+  const next=LEVELS.findIndex((L,i)=>!SV.stars[i+1]);wSel=unlockedLv(wSel)&&SV.stars[wSel+1]?wSel:Math.max(0,next<0?9:next);
+  $('#wnodes').innerHTML=LEVELS.map((L,i)=>{const un=unlockedLv(i),st=SV.stars[i+1]||0;
+    return`<button class="wn${st?' done':''}${i==next?' next':''}${un?'':' lock'}${i==wSel?' sel':''}" data-i="${i}" style="left:${WNODES[i][0]/WMW*100}%;top:${WNODES[i][1]/WMH*100}%" ${un?'':'disabled'} aria-label="Niveau ${i+1}, ${L.name}${un?'':', verrouillé'}"><span>${un?L.kj:'封'}</span><i>${st?'★'.repeat(st):i+1}</i></button>`}).join('');
+  $('#wnodes').querySelectorAll('.wn').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(wSel==i){initAudio();startLevel(i);return}wSel=i;sfx('tick');goLevelsCard();$('#wnodes').querySelectorAll('.wn').forEach(x=>x.classList.toggle('sel',x==b))});
+  goLevelsCard()}
+function goLevelsCard(){const i=wSel,L=LEVELS[i],st=SV.stars[i+1]||0,th=GEN[i]?GEN[i].thumb:'',bw=SV.best[i+1];
+  $('#wcard').innerHTML=`<span class="th" style="${th?`background-image:url(${th})`:''}"></span><div class="tx"><small>Niveau ${i+1} · ${kn(i+1)}</small><b>${L.name}</b><span class="st">${[0,1,2].map(k=>`<span class="${k<st?'':'off'}">★</span>`).join('')}</span>
+    <small>${L.waves} vagues${L.boss?' · boss : '+ONI[L.boss].name.split(',')[0]:''}${bw?` · record ∞ ${bw}`:''}</small></div><button class="btn red" id="wPlay">${ic('play')}Jouer</button>`;
+  $('#wPlay').onclick=()=>{initAudio();startLevel(i)}}
 function startLevel(i){if(!SV.deck.some(Boolean)){goTeam();return}hideAll();reset(i);setState('play');renderDeck();$('#hud').classList.remove('off');$('#hint').style.opacity=1;preview();sfx('build');bannerTxt(LV.kj,`Niveau ${i+1} — ${LV.name}`)}
 /* équipe */
 let tmSel=null,tmSlot=0;
@@ -1518,7 +1595,7 @@ let ld=0;const ready=()=>{if(++ld==2)boot()};AIMG.onload=ready;FXIMG.onload=read
 function boot(){
 buildOni();buildUnits();buildIcons();buildUiIcons();makeIcons();
 reset(0);fit();initGL();
-{let i=1;const step=()=>{if(i<LEVELS.length){getLevel(i);i++;if($('#levels').classList.contains('show')){const th=$(`.lv[data-i="${i-1}"] .th`);if(th)th.style.backgroundImage=`url(${GEN[i-1].thumb})`}setTimeout(step,30)}};setTimeout(step,300)}
+{let i=1;const step=()=>{if(i<LEVELS.length){getLevel(i);i++;if($('#levels').classList.contains('show')){if(i-1==wSel)goLevelsCard()}setTimeout(step,30)}};setTimeout(step,300)}
 goTitle();
 let last=performance.now(),acc=0,fc=0;
 let bossK='';

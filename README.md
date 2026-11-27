@@ -8,7 +8,7 @@ Tower defense 2D dans le Japon médiéval. Des hordes d'Oni descendent de la mon
 
 Fonctionne sur ordinateur et sur mobile (en paysage). Rien à installer : un seul fichier, `index.html`.
 
-Nouveautés de la version 1.1 : 10 personnages, une deuxième carte de 10 niveaux, le livre des Oni et un nouveau menu. Le détail est dans le [journal des modifications](CHANGELOG.md).
+Nouveautés de la version 1.2 : 5 coffres à gagner en jouant, ouverture animée, amélioration des personnages avec les doublons et nouvel écran de fin de combat. Le détail est dans le [journal des modifications](CHANGELOG.md).
 
 <p align="center"><img src="docs/images/jeu.png" width="820" alt="Partie en cours : à gauche le panneau d'amélioration d'un archer avec ses deux voies, à droite la barre d'équipe"></p>
 
@@ -21,7 +21,7 @@ Nouveautés de la version 1.1 : 10 personnages, une deuxième carte de 10 niveau
 1. Choisis un niveau sur la carte du pays : touche un sceau pour voir sa fiche, retouche-le ou appuie sur « Jouer » pour le lancer. Une fois la Porte des Oni scellée, le bouton « Au-delà » ouvre la deuxième carte.
 2. Glisse un personnage depuis la barre de droite et lâche-le sur le terrain. Le cercle montre sa portée ; il devient rouge si l'endroit est interdit (chemin, eau, décor).
 3. Lance la vague avec le gros bouton rond. Chaque Oni tué rapporte des pièces.
-4. Avant un niveau difficile, ouvre le **Livre des Oni** depuis le menu ou la carte : chaque Oni rencontré y a sa fiche et des conseils pour le battre.
+4. Avant un niveau difficile, ouvre le **Livre des Oni** depuis le menu : chaque Oni rencontré y a sa fiche et des conseils pour le battre.
 5. Touche un personnage posé pour l'améliorer : au premier niveau, tu choisis une de ses deux voies d'évolution, puis tu la montes jusqu'au niveau 5.
 6. Un Oni qui atteint le sanctuaire te coûte des vies (♥). À zéro, c'est perdu.
 
@@ -46,11 +46,19 @@ En cas de coup dur, le **pinceau** ralentit le temps : trace un trait d'encre su
 - **12 types d'Oni** : volants, cuirassés, guérisseurs, spectres qui traversent les attaques, Oni qui se divisent…
 - **Boss finaux uniques tous les 5 mondes** : Tsuchigumo, l'araignée des terres (monde 5), qui pond des araignées, Yamata-no-Orochi, le serpent à huit têtes (monde 10), qui perd ses têtes et enrage, Ura, roi des Oni (monde 15), et Sōjōbō, roi des tengu (monde 20), qui vole et appelle des corbeaux.
 - **Livre des Oni** : une page par Oni et par boss, avec ses PV, sa vitesse, ses capacités et comment le battre. Les Oni pas encore rencontrés restent en silhouette.
-- **Mode infini** après la 20e vague : un boss toutes les 5 vagues, des koban à chaque vague tenue, record par carte.
-- **Raretés** : commun, rare, épique, légendaire, visibles par la couleur de fond dans le menu Équipe. Les plus rares sortent moins souvent des coffres.
-- **Coffres** en bois, en laque et en or : koban, nouveaux personnages et cartes de rang (+10 % de dégâts chacune). Le premier succès sur un niveau donne un coffre avec un nouveau personnage.
+- **Mode infini** après la 20e vague : un boss toutes les 5 vagues, des koban à chaque vague tenue, un coffre toutes les 10 vagues, record par carte.
+- **Raretés** : commun, rare, épique, légendaire, visibles par la couleur de fond dans le menu Équipe, où les personnages sont triés du plus rare au moins rare. Les plus rares sortent moins souvent des coffres.
+- **5 coffres** : bois, pierre, marbre, rubis et légende. Ils ne s'achètent pas, ils se gagnent : premier succès sur un niveau (avec un nouveau personnage), 3 étoiles, parfois en rejouant, et en mode infini. Chacun s'ouvre avec une animation et contient des koban, des cartes de personnages et parfois un nouveau personnage.
+- **Amélioration des personnages** : les cartes en double et les koban font monter un personnage jusqu'au rang 10, +10 % de dégâts par rang.
+- **Écran de fin de combat** : étoiles, statistiques, butin illustré avec ouverture directe des coffres et, en cas de défaite, les Oni qui ont percé tes défenses avec un conseil pour les battre.
+- **Offrande au sanctuaire** : les koban augmentent les pièces de départ de chaque niveau.
 - **Animations d'attaque** précalculées avec [pixelfx](https://github.com/winkidney/pixelfx-godot).
 - Progression sauvegardée dans le navigateur.
+
+<p align="center">
+<img src="docs/images/coffres.png" width="410" alt="Menu des coffres : un coffre de rubis en grand et l'étagère des 5 coffres">
+<img src="docs/images/victoire.png" width="410" alt="Écran de victoire : étoiles, statistiques et butin avec coffres à ouvrir">
+</p>
 
 <p align="center">
 <img src="docs/images/boss-orochi.png" width="410" alt="Yamata-no-Orochi perd deux têtes et enrage">

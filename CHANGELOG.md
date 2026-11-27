@@ -2,6 +2,30 @@
 
 Les changements notables de YokusoTD, du plus récent au plus ancien.
 
+## 1.2.0 · 27 novembre 2026
+
+### Ajouté
+
+- **5 nouveaux coffres** dessinés en pixel art, chacun en version fermée et ouverte : bois, pierre, marbre, rubis et légende.
+- **Ouverture de coffre animée** : chute et rebond, rayons à la couleur du coffre, tremblement, éclair, colonne de lumière, pluie de pièces et cartes qui se retournent une à une. Un nouveau personnage a sa grande carte, un halo de sa rareté et un sceau « Nouveau ! ».
+- **Amélioration des personnages** : les coffres donnent des cartes en double. Avec ces cartes et des koban, un personnage monte jusqu'au rang 10 (+10 % de dégâts par rang).
+- **Écran de fin de combat** refait : sceau, étoiles qui apparaissent une à une, statistiques (vies, vagues, Oni vaincus, durée) et butin illustré avec un bouton pour ouvrir chaque coffre. En cas de défaite, il montre les Oni qui ont percé les défenses, avec un conseil et un lien vers leur fiche.
+- Un coffre toutes les 10 vagues en mode infini, de plus en plus rare.
+- Nouvelle icône de koban et nouvelle illustration de la monnaie dans les récompenses.
+
+### Modifié
+
+- **Plus de boutique** : les coffres se gagnent uniquement en jouant. Les koban servent à améliorer les personnages et à l'offrande au sanctuaire.
+- **Menu Coffres** refait : grand coffre sélectionné, étagère avec les 5 types, offrande et rappel des façons d'en gagner. La liste des personnages n'y figure plus.
+- **Menu Équipe** : personnages triés du plus rare au moins rare, débloqués et verrouillés séparés par un trait.
+- **Menus plus simples** : le bouton retour de chaque écran ramène au menu principal. La carte n'a plus qu'un bouton Menu et une flèche pour passer à l'autre carte.
+- Les coffres des anciennes sauvegardes sont convertis (laque en marbre, or en rubis), et les rangs déjà gagnés sont conservés.
+
+### Corrigé
+
+- Lancer une partie juste après l'ouverture du jeu pouvait charger un autre niveau que celui choisi.
+- Le bouton « Niveau suivant » manquait à partir du niveau 10.
+
 ## 1.1.1 · 27 novembre 2026
 
 ### Modifié

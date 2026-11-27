@@ -283,6 +283,19 @@ html,body{margin:0;height:100%;background:#0c080d;overflow:hidden;font:600 16px/
 @media (max-height:420px){.stat .lb,#brushBtn .lbl{display:none}}
 @media (orientation:portrait) and (max-width:700px){#rot{display:block}}
 @media (prefers-reduced-motion:reduce){#card,#waveBtn.pulse,#banner.go,.rc,#open.shake .big,#open.opened .burst{animation:none}#banner.go{opacity:1}}
+/* raretés */
+.ro{background:linear-gradient(165deg,color-mix(in srgb,var(--rc) 55%,transparent),color-mix(in srgb,var(--rc) 14%,#1c1220) 70%);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--rc) 70%,transparent)}
+.ro.cur{box-shadow:inset 0 0 0 2px #fff3dc,0 0 .8em color-mix(in srgb,var(--rc) 60%,transparent)}
+.ro.lock{background:linear-gradient(165deg,color-mix(in srgb,var(--rc) 22%,transparent),#1c1220 70%)}
+.slot[style*="--rc"]{background:linear-gradient(170deg,color-mix(in srgb,var(--rc) 60%,#1c1220),#1e141c 75%);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--rc) 80%,transparent)}
+.slot.sel{box-shadow:inset 0 0 0 2px #fff3dc,0 0 .9em color-mix(in srgb,var(--rc,#e2b24c) 55%,transparent)}
+.rar{display:inline-block;font-size:.72em;font-weight:800;color:#fff;background:var(--rc);padding:.05em .55em;border-radius:1em;letter-spacing:.03em;vertical-align:.15em}
+.dk{box-shadow:inset .28em 0 0 var(--rc,transparent),inset 0 0 0 1px rgba(241,228,200,.18),0 .2em .5em rgba(0,0,0,.45)}
+.rc.new[style*="--rc"]{background:linear-gradient(170deg,color-mix(in srgb,var(--rc) 45%,#fff6dc),#e2cfa6)}
+.rlegend{display:flex;gap:.8em;flex-wrap:wrap;font-size:.75em;margin:-.3em 0 .6em}
+.rlegend span{display:inline-flex;align-items:center;gap:.3em}
+.rlegend i{width:.8em;height:.8em;border-radius:.2em;background:var(--rc)}
+.ro small .ic,.det .ic{width:1em;height:1em;vertical-align:-.15em}
 </style>
 </head>
 <body>
@@ -587,6 +600,11 @@ const CL={
       {name:'Lame errante',desc:'Deux lames, frappes en rafale.',up:[90,150,240,380,580],st:{atk:'melee',n:2,hits:2,dmg:[11,55],rate:[.45,.3],range:[40,48]}}]}
 };
 const CORDER=Object.keys(CL),MAXLV=5;
+// raretés : couleur de fond dans l'équipe, chance d'apparition dans les coffres
+const RAR=[{n:'Commun',c:'#6e7a86',w:1},{n:'Rare',c:'#2f7ad8',w:.6},{n:'Épique',c:'#9a48ec',w:.32},{n:'Légendaire',c:'#e8a020',w:.14}];
+const RARK={guerrier:0,archer:0,moine:0,mage:1,ninja:1,vagabond:1,machine:2,tireur:2,kensei:3,elem:3};
+for(const k in CL)CL[k].rar=RARK[k];
+const rarOf=k=>RAR[CL[k].rar];
 const DK=.7,DM=[.8,.9,1.05,1.3,1.7].map(v=>v*DK);
 for(const k in CL){CL[k].base.dmg=+(CL[k].base.dmg*.8*DK).toFixed(1);for(const b of CL[k].br){b.lv=lerp5(b.st);b.lv.forEach((x,i)=>{if(x.dmg)x.dmg=+(x.dmg*DM[i]).toFixed(1)})}}
 const tierOf=l=>l==0?0:l<=2?1:l<=4?2:3;
@@ -681,15 +699,15 @@ const TH={
     fuji:0,pagoda:0,sun:0,blood:1,gate:1,amb:[[.92,.7,.68],[.62,.42,.5],[.32,.2,.3]],n0:.5,n1:1,wx:{k:'fall',c:['#6a5a62','#3a2e34'],n:40},trees:['dead','dead','dead'],extra:[],rocks:9,dark:1}
 };
 const LEVELS=[
-  {name:'Vallée des cerisiers',kj:'桜',th:'spring',waves:8,path:[[-16,78],[100,78],[100,206],[265,206],[265,104],[380,104],[380,212],[445,212],[445,150]],water:[{t:'vr',c:y=>182+10*Math.sin(y*.045),w:5.5}],roster:['aka','ao'],gold:180},
-  {name:'Rizières de Mino',kj:'田',th:'paddy',waves:9,path:[[-16,120],[70,120],[70,230],[180,230],[180,80],[300,80],[300,225],[400,225],[400,150]],water:[{t:'rect',x:98,y:140,w:58,h:68},{t:'rect',x:205,y:108,w:70,h:92},{t:'rect',x:322,y:56,w:120,h:56},{t:'rect',x:6,y:150,w:40,h:96},{t:'rect',x:200,y:246,w:120,h:20}],roster:['aka','ao','kozo','kana'],gold:190},
-  {name:'Forêt de bambous',kj:'竹',th:'bamboo',waves:10,path:[[-16,70],[150,70],[150,140],[40,140],[40,230],[260,230],[260,120],[360,120],[360,220],[445,220],[445,150]],water:[],roster:['aka','ao','kozo','kana','karasu'],gold:200},
-  {name:"Col d'automne",kj:'秋',th:'autumn',waves:11,path:[[-16,70],[120,70],[120,200],[230,200],[230,90],[350,90],[350,180],[440,180],[440,228]],water:[{t:'vr',c:y=>172+8*Math.sin(y*.05),w:5}],roster:['aka','ao','kozo','kana','karasu','ki'],gold:210},
-  {name:'Village de Kōga',kj:'里',th:'village',waves:12,path:[[-16,150],[60,150],[60,70],[170,70],[170,230],[290,230],[290,130],[390,130],[390,228]],water:[{t:'pond',x:112,y:200,rx:22,ry:12},{t:'pond',x:232,y:100,rx:18,ry:10}],roster:['aka','ao','kozo','kana','karasu','ki','onibi'],boss:'tsuchigumo',gold:220},
-  {name:"Marais d'Onibi",kj:'沼',th:'swamp',waves:13,path:[[-16,230],[70,230],[70,90],[160,90],[160,200],[250,200],[250,80],[360,80],[360,200],[440,200],[440,150]],water:[{t:'pond',x:115,y:148,rx:24,ry:16},{t:'pond',x:205,y:250,rx:40,ry:12},{t:'pond',x:305,y:140,rx:26,ry:22},{t:'pond',x:28,y:150,rx:20,ry:30},{t:'pond',x:205,y:62,rx:30,ry:8},{t:'pond',x:405,y:252,rx:44,ry:12}],roster:['aka','ao','kozo','kana','karasu','ki','onibi','kuro','shaman'],gold:230},
-  {name:'Côte de Suma',kj:'浜',th:'coast',waves:14,path:[[-16,80],[110,80],[110,190],[230,190],[230,70],[340,70],[340,190],[445,190],[445,150]],water:[{t:'sea',c:x=>236+5*Math.sin(x*.04)}],roster:['aka','ao','kozo','kana','karasu','ki','onibi','kuro','futago','hannya'],gold:240},
-  {name:'Monts enneigés',kj:'雪',th:'winter',waves:15,path:[[-16,180],[60,180],[60,80],[180,80],[180,230],[300,230],[300,90],[400,90],[400,228]],water:[{t:'vr',c:y=>240+9*Math.sin(y*.04),w:5}],roster:['aka','ao','kozo','kana','karasu','ki','onibi','kuro','shaman','futago','hannya'],boss:'ibaraki',gold:250},
-  {name:'Flanc du volcan',kj:'火',th:'volcano',waves:16,path:[[-16,70],[80,70],[80,230],[200,230],[200,100],[320,100],[320,230],[440,230],[440,150]],water:[{t:'hr',c:x=>165+10*Math.sin(x*.04),w:5,xmax:410}],roster:['aka','ao','kozo','kana','karasu','ki','onibi','kuro','shaman','futago','hannya'],boss:'boss',gold:260,hp:.19},
+  {name:'Vallée des cerisiers',kj:'桜',th:'spring',waves:20,path:[[-16,78],[100,78],[100,206],[265,206],[265,104],[380,104],[380,212],[445,212],[445,150]],water:[{t:'vr',c:y=>182+10*Math.sin(y*.045),w:5.5}],roster:['aka','ao'],gold:180},
+  {name:'Rizières de Mino',kj:'田',th:'paddy',waves:20,path:[[-16,120],[70,120],[70,230],[180,230],[180,80],[300,80],[300,225],[400,225],[400,150]],water:[{t:'rect',x:98,y:140,w:58,h:68},{t:'rect',x:205,y:108,w:70,h:92},{t:'rect',x:322,y:56,w:120,h:56},{t:'rect',x:6,y:150,w:40,h:96},{t:'rect',x:200,y:246,w:120,h:20}],roster:['aka','ao','kozo','kana'],gold:190},
+  {name:'Forêt de bambous',kj:'竹',th:'bamboo',waves:20,path:[[-16,70],[150,70],[150,140],[40,140],[40,230],[260,230],[260,120],[360,120],[360,220],[445,220],[445,150]],water:[],roster:['aka','ao','kozo','kana','karasu'],gold:200},
+  {name:"Col d'automne",kj:'秋',th:'autumn',waves:20,path:[[-16,70],[120,70],[120,200],[230,200],[230,90],[350,90],[350,180],[440,180],[440,228]],water:[{t:'vr',c:y=>172+8*Math.sin(y*.05),w:5}],roster:['aka','ao','kozo','kana','karasu','ki'],gold:210},
+  {name:'Village de Kōga',kj:'里',th:'village',waves:20,path:[[-16,150],[60,150],[60,70],[170,70],[170,230],[290,230],[290,130],[390,130],[390,228]],water:[{t:'pond',x:112,y:200,rx:22,ry:12},{t:'pond',x:232,y:100,rx:18,ry:10}],roster:['aka','ao','kozo','kana','karasu','ki','onibi'],boss:'tsuchigumo',gold:220},
+  {name:"Marais d'Onibi",kj:'沼',th:'swamp',waves:20,path:[[-16,230],[70,230],[70,90],[160,90],[160,200],[250,200],[250,80],[360,80],[360,200],[440,200],[440,150]],water:[{t:'pond',x:115,y:148,rx:24,ry:16},{t:'pond',x:205,y:250,rx:40,ry:12},{t:'pond',x:305,y:140,rx:26,ry:22},{t:'pond',x:28,y:150,rx:20,ry:30},{t:'pond',x:205,y:62,rx:30,ry:8},{t:'pond',x:405,y:252,rx:44,ry:12}],roster:['aka','ao','kozo','kana','karasu','ki','onibi','kuro','shaman'],gold:230},
+  {name:'Côte de Suma',kj:'浜',th:'coast',waves:20,path:[[-16,80],[110,80],[110,190],[230,190],[230,70],[340,70],[340,190],[445,190],[445,150]],water:[{t:'sea',c:x=>236+5*Math.sin(x*.04)}],roster:['aka','ao','kozo','kana','karasu','ki','onibi','kuro','futago','hannya'],gold:240},
+  {name:'Monts enneigés',kj:'雪',th:'winter',waves:20,path:[[-16,180],[60,180],[60,80],[180,80],[180,230],[300,230],[300,90],[400,90],[400,228]],water:[{t:'vr',c:y=>240+9*Math.sin(y*.04),w:5}],roster:['aka','ao','kozo','kana','karasu','ki','onibi','kuro','shaman','futago','hannya'],boss:'ibaraki',gold:250},
+  {name:'Flanc du volcan',kj:'火',th:'volcano',waves:20,path:[[-16,70],[80,70],[80,230],[200,230],[200,100],[320,100],[320,230],[440,230],[440,150]],water:[{t:'hr',c:x=>165+10*Math.sin(x*.04),w:5,xmax:410}],roster:['aka','ao','kozo','kana','karasu','ki','onibi','kuro','shaman','futago','hannya'],boss:'boss',gold:260,hp:.19},
   {name:'La Porte des Oni',kj:'門',th:'kimon',waves:20,path:[[-16,66],[445,66],[445,125],[40,125],[40,190],[380,190],[380,228]],water:[{t:'hr',c:x=>157+4*Math.sin(x*.05),w:4,xmax:470}],roster:['aka','ao','kozo','kana','karasu','ki','onibi','kuro','shaman','futago','hannya'],boss:'orochi',mid:{10:'boss',15:'ibaraki'},gold:280,hp:.3}
 ];
 LEVELS.forEach((L,i)=>L.id=i+1);
@@ -827,7 +845,7 @@ function useLevel(i){G=getLevel(i);LV=G.L;setPath(LV.path);LANTERNS=G.lan;SHRINE
 
 /* ---------- sauvegarde ---------- */
 const SKEY='kimon-save-v3',START=['guerrier','archer','mage','moine','ninja'];
-let SV={koban:0,unl:START.slice(),deck:START.slice(),rank:{},stars:{},chests:[],offer:0};
+let SV={koban:0,unl:START.slice(),deck:START.slice(),rank:{},stars:{},chests:[],offer:0,best:{}};
 try{let s=JSON.parse(localStorage.getItem(SKEY)||'null');if(!s){const o=JSON.parse(localStorage.getItem('kimon-save-v2')||'null');if(o)s={koban:o.koban||0,stars:o.stars||{},chests:o.chests||[],offer:o.offer||0}}if(s)SV=Object.assign(SV,s)}catch(e){}
 SV.unl=SV.unl.filter(k=>CL[k]);SV.deck=[0,1,2,3,4].map(i=>CL[SV.deck[i]]&&SV.unl.includes(SV.deck[i])?SV.deck[i]:null);
 const save=()=>{try{localStorage.setItem(SKEY,JSON.stringify(SV))}catch(e){}};
@@ -838,16 +856,22 @@ let S,LI=0;
 function reset(li){
   LI=li;useLevel(li);
   S={lives:20,gold:LV.gold+30*(LV.id-1)+SV.offer*25,wave:0,N:LV.waves,enemies:[],towers:[],proj:[],parts:[],bolts:[],texts:[],fx:[],queue:[],spawnT:0,waveOn:false,
-    speed:1,paused:false,t:0,night:G.T.n0,ink:100,brush:false,stroke:null,slash:null,shake:0,flash:0,flashC:[1,1,1],sepia:0,sel:null,boom:[],vfx:[],done:false};
-  seed=(Math.random()*1e9)|0;closeMenus();lastUI='';ui();preview();$('#waveMax').textContent='/'+S.N;
+    speed:1,paused:false,t:0,night:0,ink:100,brush:false,stroke:null,slash:null,shake:0,flash:0,flashC:[1,1,1],sepia:0,sel:null,boom:[],vfx:[],done:false};
+  seed=(Math.random()*1e9)|0;closeMenus();lastUI='';ui();preview();$('#waveMax').textContent='/'+S.N;S.endless=false;S.kRun=0;
 }
-const hpMul=n=>(1+.17*(n-1)+.009*(n-1)*(n-1))*(1+(LV.hp||.26)*(LV.id-1)*Math.min(1,n/7));
-function waveDef(n){const R0=LV.roster,g=[],N=LV.waves;
+const endlessKoban=n=>4+Math.floor((n-21)/3);// 21→4, 30→7, 40→10 : ~60 koban (un coffre en bois) toutes les 10 vagues au début
+const hpMul=n=>(1+.17*(n-1)+.009*(n-1)*(n-1))*(1+(LV.hp||.26)*(LV.id-1)*Math.min(1,n/7))*(n>20?Math.pow(1.06,n-20):1);
+const BOSSES=['boss','ibaraki','tsuchigumo','ura','orochi'];
+function waveDef(n0){const R0=LV.roster,g=[],N=LV.waves,n=n0>N?N+(n0-N)*.35:n0;
   const add=(t,c,i)=>{c=Math.round(c);if(R0.includes(t)&&c>0)g.push({t,c,i})};
   add('aka',4+n*1.3,Math.max(.5,1.1-n*.03));add('ao',n>=2?1+n*.8:0,.6);add('kozo',n>=2?4+n*.9:0,.25);
   add('kana',n>=4?(n-2)/2.5:0,2.4);add('karasu',n>=3?1+n*.4:0,.9);add('ki',n>=3?n/3:0,1.6);
   add('onibi',n>=3?1+n*.4:0,.85);add('kuro',n>=4?n/3.5:0,1.8);add('shaman',n>=5?n/6:0,3);
   add('futago',n>=4?n/4:0,1.6);add('hannya',n>=5?n/4.5:0,1.5);
+  if(n0>N){// mode infini : tout le bestiaire, un boss toutes les 5 vagues, plusieurs au-delà
+    const x=n0-N;add('kana',x/3,2);if(x>=3){g.push({t:'kuro',c:Math.round(1+x/6),i:1.8},{t:'hannya',c:Math.round(1+x/7),i:1.5})}
+    if(n0%5==0){const k=n0/5|0;g.push({t:BOSSES[k%5],c:1+Math.floor(x/30),i:7});if(n0%10==0&&x>=20)g.push({t:BOSSES[(k+2)%5],c:1,i:7})}
+    return g}
   if(LV.mid&&LV.mid[n])g.push({t:LV.mid[n],c:1,i:6});
   if(n==N){if(LV.boss)g.push({t:LV.boss,c:1,i:6});else g.push({t:'kana',c:2+Math.floor(LV.id/2),i:2})}
   return g}
@@ -967,7 +991,7 @@ function update(rdt){
   S.ink=Math.min(100,S.ink+rdt*(S.brush?0:3.2));
   if(S.paused||state!='play')return;
   const dt=rdt*S.speed*(S.brush?.12:1);S.t+=dt;
-  const T=G.T,tgt=lerp(T.n0,T.n1,clamp((S.wave-1)/Math.max(1,S.N-1),0,1));S.night=lerp(S.night,tgt,1-Math.exp(-rdt*.6));
+  S.night=0;// jeu de jour uniquement
   if(S.queue.length){S.spawnT+=dt;while(S.queue.length&&S.queue[0].at<=S.spawnT)spawn(S.queue.shift().t)}
   for(const e of S.enemies){
     if(e.dead)continue;
@@ -1011,7 +1035,8 @@ function update(rdt){
     S.texts.forEach(t=>{t.life-=dt*.9;t.y-=dt*14});S.texts=S.texts.filter(t=>t.life>0);
     if(S.slash){S.slash.life-=rdt;if(S.slash.life<=0)S.slash=null}
   }else S.bolts.length=0;
-  if(S.waveOn&&!S.queue.length&&!S.enemies.length){S.waveOn=false;const b=15+S.wave*4;S.gold+=b;floatText(W/2,SKY+20,'+'+b,'#ffd45a');sfx('coin');
+  if(S.waveOn&&!S.queue.length&&!S.enemies.length){S.waveOn=false;const b=15+Math.min(S.wave,40)*4;S.gold+=b;floatText(W/2,SKY+20,'+'+b,'#ffd45a');sfx('coin');
+    if(S.endless&&!S.sim){const k=endlessKoban(S.wave);SV.koban+=k;S.kRun+=k;SV.best[LV.id]=Math.max(SV.best[LV.id]||0,S.wave);save();bannerTxt('∞',`Vague ${S.wave} tenue · +${k} koban`)}
     if(S.wave>=S.N){win();return}
     preview()}
   if(!S.sim)ui();
@@ -1262,7 +1287,7 @@ function openCard(t){closeMenus();S.sel=t;const C=CL[t.k],st=statsOf(t),rk=SV.ra
 function preview(){const el=$('#preview');if(!S||state!='play'||S.wave>=S.N){el.style.display='none';return}const g=waveDef(S.wave+1);
   el.style.display='flex';el.innerHTML=`<span>Prochaine</span>`+g.map(x=>`<span title="${ONI[x.t].name}"><img src="${ENICON[x.t]}" alt="${ONI[x.t].name}">×${x.c}</span>`).join('')}
 function renderDeck(){$('#deck').innerHTML=[0,1,2,3,4].map(i=>{const k=SV.deck[i];if(!k)return`<div class="dk empty"></div>`;const C=CL[k];
-  return`<button class="dk" data-k="${k}" aria-label="${C.name}, ${C.cost} pièces. Glisse sur le terrain"><i>${i+1}</i><img src="${ICONS[k]}" alt=""><span><b>${C.name}</b><em>${ic('coin')}${C.cost}</em></span></button>`}).join('');
+  return`<button class="dk" data-k="${k}" style="--rc:${rarOf(k).c}" aria-label="${C.name}, ${C.cost} pièces. Glisse sur le terrain"><i>${i+1}</i><img src="${ICONS[k]}" alt=""><span><b>${C.name}</b><em>${ic('coin')}${C.cost}</em></span></button>`}).join('');
   $('#deck').querySelectorAll('.dk[data-k]').forEach(bindCard);lastUI=''}
 let lastUI='';
 function ui(){if(!S)return;const k=[S.lives,S.gold,S.wave,S.queue.length>0,Math.round(S.ink),S.brush,S.speed,S.paused,S.enemies.length>0,S.pick].join();if(k==lastUI)return;lastUI=k;
@@ -1292,21 +1317,21 @@ function goTitle(){hideAll();setState('title');$('#hud').classList.add('off');sh
 function goLevels(){hideAll();setState('menu');$('#hud').classList.add('off');show('#levels',true);
   $('#lvKoban').innerHTML=kobanHTML();$('#lvChestN').textContent=SV.chests.length?`(${SV.chests.length})`:'';
   $('#lgrid').innerHTML=LEVELS.map((L,i)=>{const un=unlockedLv(i),st=SV.stars[i+1]||0,th=GEN[i]?GEN[i].thumb:'';
-    return`<button class="lv" data-i="${i}" ${un?'':'disabled'} aria-label="Niveau ${i+1}, ${L.name}"><span class="th" style="${th?`background-image:url(${th})`:''}"></span><span class="no">${i+1}</span><span class="kj">${un?L.kj:'封'}</span><span class="nm">${L.name}<small>${L.waves} vagues${L.boss?' · boss':''}</small></span><span class="st">${[0,1,2].map(k=>`<span class="${k<st?'':'off'}">★</span>`).join('')}</span></button>`}).join('');
+    return`<button class="lv" data-i="${i}" ${un?'':'disabled'} aria-label="Niveau ${i+1}, ${L.name}"><span class="th" style="${th?`background-image:url(${th})`:''}"></span><span class="no">${i+1}</span><span class="kj">${un?L.kj:'封'}</span><span class="nm">${L.name}<small>${L.waves} vagues${L.boss?' · boss':''}${SV.best[i+1]?` · ∞ ${SV.best[i+1]}`:''}</small></span><span class="st">${[0,1,2].map(k=>`<span class="${k<st?'':'off'}">★</span>`).join('')}</span></button>`}).join('');
   $('#lgrid').querySelectorAll('.lv').forEach(b=>b.onclick=()=>{initAudio();startLevel(+b.dataset.i)})}
 function startLevel(i){if(!SV.deck.some(Boolean)){goTeam();return}hideAll();reset(i);setState('play');renderDeck();$('#hud').classList.remove('off');$('#hint').style.opacity=1;preview();sfx('build');bannerTxt(LV.kj,`Niveau ${i+1} — ${LV.name}`)}
 /* équipe */
 let tmSel=null,tmSlot=0;
 function goTeam(){hideAll();setState('menu');$('#hud').classList.add('off');show('#team',true);if(!tmSel)tmSel=SV.deck.find(Boolean)||CORDER[0];renderTeam()}
 function renderTeam(){$('#tmKoban').innerHTML=kobanHTML();const k=tmSel,C=CL[k],un=SV.unl.includes(k),inD=SV.deck.indexOf(k),rk=SV.rank[k]||0;
-  const slots=[0,1,2,3,4].map(i=>{const s=SV.deck[i];return`<button class="slot${i==tmSlot?' sel':''}${s?'':' e'}" data-s="${i}" aria-label="Emplacement ${i+1}${s?', '+CL[s].name:', vide'}"><span class="n">${KJ[i+1]}</span>${s?`<img src="${ICONS[s]}" alt=""><b>${CL[s].name}</b>`:'<b>—</b>'}</button>`}).join('');
-  const roster=CORDER.map(c=>{const u=SV.unl.includes(c),r=SV.rank[c]||0;return`<button class="ro${u?'':' lock'}${SV.deck.includes(c)?' in':''}${c==k?' cur':''}" data-c="${c}" aria-label="${u?CL[c].name:'Personnage verrouillé'}"><img src="${ICONS[c]}" alt=""><b>${u?CL[c].name:'???'}</b><small>${u?(r?'★'.repeat(r):ic('coin')+CL[c].cost):'Coffre'}</small></button>`}).join('');
+  const slots=[0,1,2,3,4].map(i=>{const s=SV.deck[i];return`<button class="slot${i==tmSlot?' sel':''}${s?'':' e'}" data-s="${i}" style="${s?`--rc:${rarOf(s).c}`:''}" aria-label="Emplacement ${i+1}${s?', '+CL[s].name:', vide'}"><span class="n">${KJ[i+1]}</span>${s?`<img src="${ICONS[s]}" alt=""><b>${CL[s].name}</b>`:'<b>—</b>'}</button>`}).join('');
+  const roster=CORDER.map(c=>{const u=SV.unl.includes(c),r=SV.rank[c]||0;return`<button class="ro${u?'':' lock'}${SV.deck.includes(c)?' in':''}${c==k?' cur':''}" data-c="${c}" style="--rc:${rarOf(c).c}" title="${rarOf(c).n}" aria-label="${u?CL[c].name:'Personnage verrouillé'}"><img src="${ICONS[c]}" alt=""><b>${u?CL[c].name:'???'}</b><small>${u?(r?'★'.repeat(r):ic('coin')+CL[c].cost):'Coffre'}</small></button>`}).join('');
   const brc=b=>{const B=C.br[b];return`<div class="col"><span class="ar">▼</span>${[1,2,3].map(T=>`<img src="${ICONS[k+b+T]}" alt="">`).join('')}<b>${B.name}</b><small>${B.desc}</small></div>`};
   let act;if(!un)act=`<button class="btn" disabled>À trouver dans un coffre</button>`;
   else if(inD>=0)act=`<button class="btn dark" id="tmAct" style="background:var(--ink2)">Retirer de l'équipe</button>`;
   else{const free=SV.deck.findIndex(s=>!s),tgt=free>=0?free:tmSlot;act=`<button class="btn red" id="tmAct">${free>=0?"Ajouter à l'équipe":`Remplacer ${CL[SV.deck[tgt]].name}`}</button>`}
-  $('#tmBody').innerHTML=`<div class="team"><div><div class="sec"><h3>Ton équipe <span>五人</span></h3><div class="slots">${slots}</div></div><div class="sec"><h3>Personnages <span>図鑑</span></h3><div class="roster">${roster}</div></div></div>
-    <div class="det"><div class="seal">${C.kj}</div><h3>${un?C.name:'Personnage verrouillé'}</h3><span class="rk">${un?`${ic('coin')}${C.cost} pièces${rk?` · rang ${rk} (+${rk*10}% dégâts)`:''}`:''}</span><p>${C.desc}</p>
+  $('#tmBody').innerHTML=`<div class="team"><div><div class="sec"><h3>Ton équipe <span>五人</span></h3><div class="slots">${slots}</div></div><div class="sec"><h3>Personnages <span>図鑑</span></h3><div class="rlegend">${RAR.map(r=>`<span style="--rc:${r.c}"><i></i>${r.n}</span>`).join('')}</div><div class="roster">${roster}</div></div></div>
+    <div class="det"><div class="seal">${C.kj}</div><h3>${un?C.name:'Personnage verrouillé'}</h3><span class="rar" style="--rc:${rarOf(k).c}">${rarOf(k).n}</span> <span class="rk">${un?`${ic('coin')}${C.cost} pièces${rk?` · rang ${rk} (+${rk*10}% dégâts)`:''}`:''}</span><p>${C.desc}</p>
       <div class="tree"><div class="root"><img src="${ICONS[k]}" alt="" style="${un?'':'filter:brightness(0) opacity(.5)'}"></div>${brc(0)}${brc(1)}</div>${act}</div></div>`;
   const B=$('#tmBody');
   B.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{tmSlot=+b.dataset.s;const s=SV.deck[tmSlot];if(s)tmSel=s;sfx('tick');renderTeam()});
@@ -1330,8 +1355,8 @@ function renderChests(){$('#chKoban').innerHTML=kobanHTML();
   const ob=$('#offerB');if(ob)ob.onclick=()=>{if(SV.koban<oc||om)return;SV.koban-=oc;SV.offer++;save();sfx('build');renderChests()}}
 function rollChest(c){const C=CHEST[c.t],out=[];const k=C.k[0]+Math.floor(Math.random()*(C.k[1]-C.k[0]+1));SV.koban+=k;out.push({img:KOBAN,b:`+${k} koban`,s:'Monnaie du sanctuaire'});
   const locked=CORDER.filter(t=>!SV.unl.includes(t));
-  if(locked.length&&(c.g||Math.random()<C.tw)){const t=c.g?locked[0]:locked[Math.random()*locked.length|0];SV.unl.push(t);const f=SV.deck.findIndex(s=>!s);if(f>=0)SV.deck[f]=t;
-    out.push({img:ICONS[t],b:'Nouveau personnage !',s:CL[t].name,nw:1})}
+  if(locked.length&&(c.g||Math.random()<C.tw)){let r=Math.random()*locked.reduce((a,k)=>a+rarOf(k).w,0),t=locked[0];for(const k of locked){r-=rarOf(k).w;if(r<=0){t=k;break}}SV.unl.push(t);const f=SV.deck.findIndex(s=>!s);if(f>=0)SV.deck[f]=t;
+    out.push({img:ICONS[t],b:'Nouveau personnage !',s:`${CL[t].name} · ${rarOf(t).n}`,nw:1,rc:rarOf(t).c})}
   for(let i=0;i<C.cards;i++){const pool=SV.unl.filter(t=>(SV.rank[t]||0)<5);if(!pool.length){const k2=25;SV.koban+=k2;out.push({img:KOBAN,b:`+${k2} koban`,s:'Tous les personnages au rang max'});continue}
     const t=pool[Math.random()*pool.length|0];SV.rank[t]=(SV.rank[t]||0)+1;out.push({img:ICONS[t],b:CL[t].name,s:`Rang ${SV.rank[t]} · +${SV.rank[t]*10}% dégâts`})}
   return out}
@@ -1340,7 +1365,7 @@ function openChest(i){const c=SV.chests[i];if(!c)return;SV.chests.splice(i,1);co
   const o=$('#open');o.className='show shake';$('#openImg').src=CIMG[c.t][0];$('#openItems').innerHTML='';$('#openTap').textContent='…';sfx('rumble');
   opening={stage:0};clearTimeout(opening.tm);
   opening.tm=setTimeout(()=>{o.className='show opened';$('#openImg').src=CIMG[c.t][1];sfx('win');
-    $('#openItems').innerHTML=res.map((r,k)=>`<div class="rc${r.nw?' new':''}" style="animation-delay:${.15+k*.18}s"><img src="${r.img}" alt=""><b>${r.b}</b><small>${r.s}</small></div>`).join('');
+    $('#openItems').innerHTML=res.map((r,k)=>`<div class="rc${r.nw?' new':''}" style="animation-delay:${.15+k*.18}s;${r.rc?`--rc:${r.rc}`:''}"><img src="${r.img}" alt=""><b>${r.b}</b><small>${r.s}</small></div>`).join('');
     $('#openTap').textContent='Touche pour continuer';opening.stage=1},950)}
 $('#open').onclick=()=>{if(!opening||opening.stage<1)return;opening=null;$('#open').className='';if($('#chests').classList.contains('show'))renderChests();if($('#end').classList.contains('show'))endButtons()};
 function stars(n){return[0,1,2].map(k=>`<span class="${k<n?'':'off'}">★</span>`).join('')}
@@ -1352,18 +1377,24 @@ function win(){S.brush=false;if(S.sim){state='over';S.result='win';return}closeM
   if(first){SV.chests.push({t:ct,g:1});rew.push(`<span><img src="${CIMG[ct][0]}" alt="">${CHEST[ct].name}</span>`)}
   if(st==3&&prevSt<3){SV.chests.push({t:'wood'});rew.push(`<span><img src="${CIMG.wood[0]}" alt="">Bonus 3 étoiles</span>`)}
   if(!first&&Math.random()<.15){SV.chests.push({t:'wood'});rew.push(`<span><img src="${CIMG.wood[0]}" alt="">${CHEST.wood.name}</span>`)}
-  save();lastEnd={win:1};
+  save();lastEnd={win:1,canGo:true};
   $('#endK').textContent='勝';$('#endT').firstChild.textContent='Victoire';$('#endS').textContent=`${LV.name} · ${S.lives} vies restantes`;$('#endStars').innerHTML=stars(st);$('#endRew').innerHTML=rew.join('');
-  $('#endP').textContent=LV.id==10?"La Porte des Oni est scellée. L'aube se lève sur le pays.":"Les fleurs ont poussé là où les démons sont tombés.";endButtons();$('#hud').classList.add('off');show('#end',true);sfx('win')}
-function gameOver(){S.brush=false;if(S.sim){state='over';S.result='lose';return}closeMenus();setState('over');lastEnd={win:0};
+  $('#endP').textContent=(LV.id==10?"La Porte des Oni est scellée. L'aube se lève sur le pays.":"Les fleurs ont poussé là où les démons sont tombés.")+" Tu peux continuer en mode infini pour gagner des koban à chaque vague.";endButtons();$('#hud').classList.add('off');show('#end',true);sfx('win')}
+function gameOver(){S.brush=false;if(S.sim){state='over';S.result='lose';return}closeMenus();setState('over');
+  if(S.endless){lastEnd={win:1,canGo:false};const bw=SV.best[LV.id]||0;$('#endK').textContent='∞';$('#endT').firstChild.textContent='Fin du mode infini';$('#endS').textContent=`${LV.name} · tombé à la vague ${S.wave}`;
+    $('#endStars').innerHTML='';$('#endRew').innerHTML=`<span><img src="${KOBAN}" alt="">+${S.kRun} koban gagnés</span><span><img src="${ICO.flag}" alt="">Record : vague ${bw}</span>`;
+    $('#endP').textContent=`Tu as tenu ${S.wave-21} vague${S.wave-21>1?'s':''} au-delà de la 20e. Les koban sont déjà dans ton coffre.`;endButtons();$('#hud').classList.add('off');show('#end',true);sfx('lose');return}
+  lastEnd={win:0};
   $('#endK').textContent='滅';$('#endT').firstChild.textContent='Le sanctuaire est tombé';$('#endS').textContent=`${LV.name} · vague ${S.wave}/${S.N}`;$('#endStars').innerHTML='';$('#endRew').innerHTML='';
   $('#endP').textContent="Fais évoluer tes personnages, change ton équipe et ouvre des coffres pour en recruter de nouveaux, puis reviens.";endButtons();$('#hud').classList.add('off');show('#end',true);sfx('lose')}
 function endButtons(){const a=$('#endActs'),b=[];
+  if(lastEnd.win&&lastEnd.canGo)b.push(`<button class="btn red" id="eInf"><span class="k">∞</span>Continuer en mode infini</button>`);
   if(lastEnd.win){if(SV.chests.length)b.push(`<button class="btn gold" id="eOpen"><span class="k">宝</span>Ouvrir le coffre</button>`);if(LI<9)b.push(`<button class="btn red" id="eNext">Niveau suivant</button>`)}
   else b.push(`<button class="btn red" id="eRetry"><span class="k">再</span>Réessayer</button>`);
   b.push(`<button class="btn" id="eTeam"><span class="k">編</span>Équipe</button>`,`<button class="btn" id="eMap">Carte du pays</button>`);a.innerHTML=b.join('');
   const on=(id,f)=>{const e=$(id);if(e)e.onclick=f};
-  on('#eOpen',()=>{const i=SV.chests.findIndex(c=>c.g);openChest(i>=0?i:SV.chests.length-1)});on('#eNext',()=>startLevel(LI+1));on('#eRetry',()=>startLevel(LI));on('#eMap',goLevels);on('#eTeam',goTeam)}
+  on('#eOpen',()=>{const i=SV.chests.findIndex(c=>c.g);openChest(i>=0?i:SV.chests.length-1)});on('#eNext',()=>startLevel(LI+1));on('#eRetry',()=>startLevel(LI));on('#eMap',goLevels);on('#eTeam',goTeam);on('#eInf',goEndless)}
+function goEndless(){hideAll();S.endless=true;S.N=Infinity;S.kRun=0;$('#waveMax').textContent='/∞';setState('play');renderDeck();$('#hud').classList.remove('off');lastUI='';ui();preview();bannerTxt('∞','Mode infini : chaque vague tenue rapporte des koban')}
 
 /* ---------- entrées ---------- */
 const toGame=ev=>{const r=stage.getBoundingClientRect();return[(ev.clientX-r.left)/r.width*W,(ev.clientY-r.top)/r.height*H]};
@@ -1469,8 +1500,8 @@ function music(){if(!AC||muted||state=='title')return;const spb=60/78/2;
 function bestSpot(k){const st=CL[k].base,r=st.range*.92,pts=[];for(let d=0;d<PLEN;d+=5){const p=posAt(d);if(p[0]>0&&p[0]<W)pts.push(p)}
   let best=null,bs=-1;for(let y=SKY+20;y<H-4;y+=4)for(let x=8;x<W-8;x+=4){if(!canPlace(x,y))continue;let s=0;for(const p of pts)if((p[0]-x)**2+((p[1]-y)/.6)**2<r*r)s++;if(s>bs){bs=s;best=[x,y]}}return best}
 function simulate(li,opt={}){const keep=JSON.stringify(SV);if(opt.deck)SV.deck=opt.deck;if(opt.rank!=null)CORDER.forEach(k=>SV.rank[k]=opt.rank);
-  reset(li);S.sim=1;state='play';const deck=SV.deck.filter(Boolean);let tt=0,bi=0;const brs=opt.br||{};
-  while(state=='play'&&tt<3600){
+  reset(li);S.sim=1;state='play';if(opt.endless){S.N=Infinity;S.endless=true}const deck=SV.deck.filter(Boolean);let tt=0,bi=0;const brs=opt.br||{};
+  while(state=='play'&&tt<(opt.endless?9000:3600)){
     if(((tt*2)|0)!=(((tt-1/30)*2)|0)){
       const nT=S.towers.length,want=deck[bi%deck.length],max=opt.maxT||12;
       const ups=S.towers.filter(t=>t.l<MAXLV).map(t=>({t,b:t.l?t.b:(brs[t.k]??(S.towers.indexOf(t)%2)),c:0}));ups.forEach(u=>u.c=upCost(u.t,u.b));ups.sort((a,b)=>a.c-b.c);const cu=ups[0];
@@ -1494,7 +1525,7 @@ let bossK='';
 function bossUI(){const b=state=='play'&&S.enemies.find(e=>e.o.boss&&!e.dead),k=b?b.type+(b.hp/b.max*100|0):'';if(k==bossK)return;bossK=k;
   $('#bossBar').classList.toggle('show',!!b);if(b){$('#bossName').textContent=b.o.name;$('#bossFill').style.width=Math.max(0,b.hp/b.max*100)+'%'}}
 function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;bossUI();
-  if(state!='play'&&state!='over'){S.night=.35+.25*Math.sin(now/4000);S.t+=dt}
+  if(state!='play'&&state!='over'){S.night=0;S.t+=dt}
   update(dt);if(state!='menu'||true)render(now/1000);music();
   acc+=dt;fc++;if(acc>2){const fps=fc/acc;if(fps<40&&steps>6)steps-=2;else if(fps>57&&steps<12)steps+=2;acc=0;fc=0}
   requestAnimationFrame(frame)}

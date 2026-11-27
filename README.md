@@ -4,7 +4,7 @@
 
 **▶ Jouer dans le navigateur : https://firetaleshy.github.io/YokusoTD/**
 
-Tower defense 2D dans le Japon médiéval. Des hordes d'Oni descendent de la montagne vers les sanctuaires ; tu les arrêtes avec une équipe de cinq héros que tu poses où tu veux sur le champ de bataille. Pixel art inspiré de Celeste, direction artistique sumi-e façon Ōkami, lumières et ombres calculées par shader.
+Tower defense 2D dans le Japon médiéval. Des hordes d'Oni descendent de la montagne vers les sanctuaires ; tu les arrêtes avec une équipe de cinq héros que tu poses où tu veux sur le champ de bataille. Pixel art inspiré de Celeste, direction artistique sumi-e façon Ōkami, lumières et ombres calculées par shader, en plein jour.
 
 Fonctionne sur ordinateur et sur mobile (en paysage). Rien à installer : un seul fichier, `index.html`.
 
@@ -33,9 +33,11 @@ En cas de coup dur, le **pinceau** ralentit le temps : trace un trait d'encre su
 ## Contenu
 
 - **10 personnages**, chacun avec une recrue et 2 voies d'évolution (sprites ci-dessous). Ton équipe en compte 5, à composer dans le menu **Équipe**.
-- **10 niveaux** sur 10 cartes : cerisiers, rizières, bambous, automne, village, marais, côte, montagnes enneigées, volcan, Porte des Oni.
+- **10 niveaux de 20 vagues** sur 10 cartes : cerisiers, rizières, bambous, automne, village, marais, côte, montagnes enneigées, volcan, Porte des Oni.
 - **12 types d'Oni** : volants, cuirassés, guérisseurs, spectres qui traversent les attaques, Oni qui se divisent…
 - **Boss finaux uniques tous les 5 mondes** : Tsuchigumo, l'araignée des terres (monde 5), qui pond des araignées, et Yamata-no-Orochi, le serpent à huit têtes (monde 10), qui perd ses têtes et enrage.
+- **Mode infini** après la 20e vague : un boss toutes les 5 vagues, des koban à chaque vague tenue, record par carte.
+- **Raretés** : commun, rare, épique, légendaire, visibles par la couleur de fond dans le menu Équipe. Les plus rares sortent moins souvent des coffres.
 - **Coffres** en bois, en laque et en or : koban, nouveaux personnages et cartes de rang (+10 % de dégâts chacune). Le premier succès sur un niveau donne un coffre avec un nouveau personnage.
 - **Animations d'attaque** précalculées avec [pixelfx](https://github.com/winkidney/pixelfx-godot).
 - Progression sauvegardée dans le navigateur.

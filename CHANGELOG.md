@@ -2,6 +2,12 @@
 
 Les changements notables de YokusoTD, du plus récent au plus ancien.
 
+## 1.3.1 · 28 novembre 2026
+
+### Corrigé
+
+- Fiche d'amélioration : « Vendre » et « ✕ » passent tout en haut de la fiche, à l'opposé des boutons « Choisir » et « Améliorer » (en bas). Plus aucun risque de toucher le mauvais bouton.
+
 ## 1.3.0 · 28 novembre 2026
 
 ### Ajouté

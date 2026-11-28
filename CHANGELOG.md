@@ -2,6 +2,23 @@
 
 Les changements notables de YokusoTD, du plus récent au plus ancien.
 
+## 1.3.0 · 28 novembre 2026
+
+### Ajouté
+
+- **Mode portrait sur téléphone** : l'interface pivote d'elle-même et le jeu remplit tout l'écran, même avec la rotation automatique bloquée. Le glisser-déposer, la fiche des personnages et les coffres suivent la rotation.
+- **Réglages** : musique et effets sonores séparés (mémorisés), plein écran (avec verrouillage en paysage sur Android), effacement de la progression en deux étapes, crédits et numéro de version.
+- **Terrains enrichis (niveaux 2 à 20)** : une vingtaine d'éléments de décor propres à chaque thème (épouvantails et gerbes de riz, jizō, puits, barques sur la plage, bannières nobori, tombes, moulinets d'Osorezan, bonshommes de neige, roches de lave, kodama, champignons, feux follets…), des bosquets, une lisière de végétation en haut et en bas du terrain, des détails au sol et un gazon plus nuancé. Le niveau 1 ne change pas.
+
+### Modifié
+
+- **Menu principal** clarifié : un seul dock centré, Équipe et Coffres à gauche, le bouton Jouer (avec le prochain niveau) au milieu, Livre des Oni et Réglages à droite. Les kanji des boutons sont remplacés par des icônes en pixel art (casque, coffre, masque d'Oni, engrenage, haut-parleur).
+- Fiche d'amélioration plus compacte sur les petits écrans : la zone des voies défile au lieu de déborder, et les boutons sont plus grands au doigt.
+
+### Corrigé
+
+- **Sur mobile, toucher « Choisir » ou « Améliorer » pouvait vendre le personnage** : sur les écrans peu hauts, le bouton Vendre recouvrait les boutons d'amélioration. Il est maintenant toujours sous les voies, demande une confirmation (deuxième toucher), et un toucher trop rapide juste après l'ouverture ou une amélioration est ignoré.
+
 ## 1.2.0 · 27 novembre 2026
 
 ### Ajouté

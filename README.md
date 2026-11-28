@@ -6,7 +6,7 @@
 
 Tower defense 2D dans le Japon médiéval. Des hordes d'Oni descendent de la montagne vers les sanctuaires ; tu les arrêtes avec une équipe de cinq héros que tu poses où tu veux sur le champ de bataille. Pixel art inspiré de Celeste, direction artistique sumi-e façon Ōkami, lumières et ombres calculées par shader, en plein jour.
 
-Fonctionne sur ordinateur et sur mobile (en paysage). Rien à installer : un seul fichier, `index.html`.
+Fonctionne sur ordinateur et sur mobile, en paysage comme en portrait (l'interface pivote toute seule). Rien à installer : un seul fichier, `index.html`.
 
 Nouveautés de la version 1.2 : 5 coffres à gagner en jouant, ouverture animée, amélioration des personnages avec les doublons et nouvel écran de fin de combat. Le détail est dans le [journal des modifications](CHANGELOG.md).
 
@@ -22,7 +22,7 @@ Nouveautés de la version 1.2 : 5 coffres à gagner en jouant, ouverture animée
 2. Glisse un personnage depuis la barre de droite et lâche-le sur le terrain. Le cercle montre sa portée ; il devient rouge si l'endroit est interdit (chemin, eau, décor).
 3. Lance la vague avec le gros bouton rond. Chaque Oni tué rapporte des pièces.
 4. Avant un niveau difficile, ouvre le **Livre des Oni** depuis le menu : chaque Oni rencontré y a sa fiche et des conseils pour le battre.
-5. Touche un personnage posé pour l'améliorer : au premier niveau, tu choisis une de ses deux voies d'évolution, puis tu la montes jusqu'au niveau 5.
+5. Touche un personnage posé pour l'améliorer : au premier niveau, tu choisis une de ses deux voies d'évolution, puis tu la montes jusqu'au niveau 5. Pour le vendre, touche « Vendre » puis « Confirmer ».
 6. Un Oni qui atteint le sanctuaire te coûte des vies (♥). À zéro, c'est perdu.
 
 En cas de coup dur, le **pinceau** ralentit le temps : trace un trait d'encre sur les Oni pour les trancher.
@@ -37,12 +37,16 @@ En cas de coup dur, le **pinceau** ralentit le temps : trace un trait d'encre su
 | `P` / `Échap` | Pause |
 | `M` | Son |
 
+La musique, les effets sonores et le plein écran se règlent depuis le bouton **Réglages** du menu principal.
+
 ## Contenu
 
 - **20 personnages**, chacun avec une recrue et 2 voies d'évolution (sprites ci-dessous). Ton équipe en compte 5, à composer dans le menu **Équipe**.
 - **20 niveaux de 20 vagues** répartis sur 2 cartes du pays :
   - **Carte du pays** : cerisiers, rizières, bambous, automne, village, marais, côte, montagnes enneigées, volcan, Porte des Oni.
   - **Au-delà de la Porte** (débloquée après la Porte des Oni) : glycines, théiers d'Uji, gorges de Kiso, château de Himeji, sources de Hakone, forêt des kodama, dunes de Tottori, glaces d'Ezo, mont Osore, Yomi.
+<p align="center"><img src="docs/images/terrains.png" width="820" alt="Neuf terrains des niveaux 2 à 20 : rizières, automne, côte, montagnes enneigées, château, forêt des kodama, glaces d'Ezo, mont Osore et Yomi, chacun avec son décor"></p>
+
 - **12 types d'Oni** : volants, cuirassés, guérisseurs, spectres qui traversent les attaques, Oni qui se divisent…
 - **Boss finaux uniques tous les 5 mondes** : Tsuchigumo, l'araignée des terres (monde 5), qui pond des araignées, Yamata-no-Orochi, le serpent à huit têtes (monde 10), qui perd ses têtes et enrage, Ura, roi des Oni (monde 15), et Sōjōbō, roi des tengu (monde 20), qui vole et appelle des corbeaux.
 - **Livre des Oni** : une page par Oni et par boss, avec ses PV, sa vitesse, ses capacités et comment le battre. Les Oni pas encore rencontrés restent en silhouette.

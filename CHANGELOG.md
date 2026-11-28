@@ -2,6 +2,17 @@
 
 Les changements notables de YokusoTD, du plus récent au plus ancien.
 
+## 1.4.0 · 28 novembre 2026
+
+### Ajouté
+
+- **Mode infini séparé**, accessible depuis le bouton « Mode infini » sous Jouer : choisis un terrain déjà débloqué et tiens le plus longtemps possible, sans dernière vague. Un record par terrain.
+- **Un coffre toutes les 10 vagues, de plus en plus rare** : bois (vague 10), pierre (20), marbre (30), rubis (40), puis légendaire à chaque palier à partir de la vague 50. Les koban par vague arrivent après la 20e.
+
+### Corrigé
+
+- En portrait (interface pivotée), on ne pouvait pas faire défiler les listes, par exemple les personnages de l'écran Équipe. Le défilement au doigt marche maintenant partout, avec un élan au lâcher.
+
 ## 1.3.1 · 28 novembre 2026
 
 ### Corrigé

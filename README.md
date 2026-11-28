@@ -47,6 +47,7 @@ La musique, les effets sonores et le plein écran se règlent depuis le bouton *
   - **Au-delà de la Porte** (débloquée après la Porte des Oni) : glycines, théiers d'Uji, gorges de Kiso, château de Himeji, sources de Hakone, forêt des kodama, dunes de Tottori, glaces d'Ezo, mont Osore, Yomi.
 <p align="center"><img src="docs/images/terrains.png" width="820" alt="Neuf terrains des niveaux 2 à 20 : rizières, automne, côte, montagnes enneigées, château, forêt des kodama, glaces d'Ezo, mont Osore et Yomi, chacun avec son décor"></p>
 
+- **Mode infini** : sur n'importe quel terrain débloqué, des vagues sans fin et un coffre toutes les 10 vagues, de plus en plus rare (bois, pierre, marbre, rubis, puis légendaire dès la vague 50).
 - **12 types d'Oni** : volants, cuirassés, guérisseurs, spectres qui traversent les attaques, Oni qui se divisent…
 - **Boss finaux uniques tous les 5 mondes** : Tsuchigumo, l'araignée des terres (monde 5), qui pond des araignées, Yamata-no-Orochi, le serpent à huit têtes (monde 10), qui perd ses têtes et enrage, Ura, roi des Oni (monde 15), et Sōjōbō, roi des tengu (monde 20), qui vole et appelle des corbeaux.
 - **Livre des Oni** : une page par Oni et par boss, avec ses PV, sa vitesse, ses capacités et comment le battre. Les Oni pas encore rencontrés restent en silhouette.

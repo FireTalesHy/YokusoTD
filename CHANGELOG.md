@@ -2,6 +2,13 @@
 
 Les changements notables de YokusoTD, du plus récent au plus ancien.
 
+## 1.4.1 · 28 novembre 2026
+
+### Ajouté
+
+- **Plein écran automatique sur mobile** : au premier toucher, le jeu passe en plein écran et se verrouille en paysage (Android). Désactivable dans Réglages.
+- **Jeu installable comme une appli** (manifeste, icône, service worker) : ajouté à l'écran d'accueil, il s'ouvre en plein écran sans aucune barre du navigateur. Bouton « Installer l'appli » dans Réglages quand le navigateur le propose, sinon la marche à suivre.
+
 ## 1.4.0 · 28 novembre 2026
 
 ### Ajouté

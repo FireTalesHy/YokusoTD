@@ -439,6 +439,25 @@ body.rot{position:absolute;top:0;transform:rotate(90deg);transform-origin:0 0}
 .dock .bt-go::after{content:"";position:absolute;top:0;bottom:0;left:-40%;width:25%;background:linear-gradient(100deg,transparent,rgba(255,240,220,.35),transparent);transform:skewX(-18deg);animation:shine 4.5s ease-in-out infinite;pointer-events:none}
 @keyframes shine{0%,70%{left:-40%}100%{left:130%}}
 @media (prefers-reduced-motion:reduce){.dock .bt-go::after{animation:none;display:none}}
+.dock-c{display:flex;flex-direction:column;align-items:stretch;gap:.45em}
+.bt-inf{position:relative;display:flex;align-items:center;justify-content:center;gap:.45em;height:2.4em;padding:0 1em;border:0;border-radius:.35em .8em .35em .8em;cursor:pointer;font:inherit;font-weight:800;color:#f6dc8a;background:linear-gradient(#33243a,#160f18);box-shadow:0 0 0 .12em var(--ink),0 0 0 .24em rgba(232,193,90,.6),0 .3em 0 .12em #0a060b;transition:transform .1s,filter .12s}
+.bt-inf b{font-size:1.55em;line-height:1;color:var(--gold);text-shadow:0 0 .4em rgba(232,193,90,.7)}
+.bt-inf:hover{filter:brightness(1.2);transform:translateY(-1px)}.bt-inf:active{transform:translateY(.15em)}
+.inf-in{max-width:46em;margin:0 0 .9em;opacity:.88;font-size:.95em;line-height:1.45}
+.inf-ladder{display:flex;gap:.5em;flex-wrap:wrap;margin:0 0 1.2em}
+.ir{display:flex;align-items:center;gap:.5em;padding:.35em .8em .35em .4em;border-radius:.5em;background:linear-gradient(90deg,color-mix(in srgb,var(--cc) 38%,#1c1420),#1c1420 85%);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--cc) 65%,transparent)}
+.ir img{width:2.5em;height:2.5em;object-fit:contain;image-rendering:pixelated}
+.ir b{display:block;font-size:.92em}.ir small{display:block;font-size:.72em;opacity:.8}
+.inf-h{margin:.2em 0 .6em;font-size:1.15em;display:flex;align-items:baseline;gap:.5em}.inf-h span{font:normal .8em "Yuji Syuku",serif;color:var(--gold)}
+.inf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(10.5em,1fr));gap:.75em}
+.ilv{position:relative;display:flex;flex-direction:column;padding:0;border:0;border-radius:.5em;overflow:hidden;background:#1c1420;color:var(--washi);font:inherit;text-align:left;cursor:pointer;box-shadow:0 0 0 2px rgba(241,228,200,.14),0 .3em .6em rgba(0,0,0,.4);transition:transform .12s,box-shadow .12s}
+.ilv:hover,.ilv:focus-visible{transform:translateY(-2px);box-shadow:0 0 0 2px var(--gold),0 .5em 1em rgba(0,0,0,.5);outline:0}
+.ilv .th{display:block;aspect-ratio:16/9;background:#2a2230 center/cover;image-rendering:pixelated}
+.ilv .nm{padding:.45em .6em 0;font-weight:800;font-size:.95em;line-height:1.2}.ilv .nm small{display:block;font-size:.72em;opacity:.6;font-weight:600}
+.ilv .irc{padding:.2em .6em .55em;font-size:.78em;color:var(--gold);display:flex;align-items:center;gap:.3em}
+.ilv .irc .ic{width:1.1em}
+.ilv.lk{cursor:not-allowed;opacity:.5;filter:grayscale(.85)}.ilv.lk .irc{color:var(--washi);opacity:.8}
+body.rot .mbody,body.rot .paths,body.rot .opt-p,body.rot #end .end2{touch-action:none}
 .ver{position:absolute;right:1.4%;bottom:1%;font-size:.62em;opacity:.45;z-index:3}
 /* réglages */
 .opt{position:absolute;inset:0;z-index:8;display:none;place-items:center;background:rgba(12,8,13,.62);backdrop-filter:blur(2px)}
@@ -706,17 +725,17 @@ body.rot{position:absolute;top:0;transform:rotate(90deg);transform-origin:0 0}
     <nav class="dock" aria-label="Menu principal">
       <button class="bt-sq ai" id="teamBtn"><img class="k" data-ic="kabuto" alt=""><span class="l">Équipe</span><em id="teamUp"></em></button>
       <button class="bt-sq kin" id="chestBtn"><img class="k" data-ic="chest2" alt=""><span class="l">Coffres</span><em id="chestCount"></em></button>
-      <button class="bt-go" id="playBtn"><img class="k" data-ic="playr" alt=""><span class="l">Jouer<small id="tProg"></small></span></button>
+      <div class="dock-c"><button class="bt-go" id="playBtn"><img class="k" data-ic="playr" alt=""><span class="l">Jouer<small id="tProg"></small></span></button><button class="bt-inf" id="infBtn"><b aria-hidden="true">∞</b>Mode infini</button></div>
       <button class="bt-sq sumi" id="bookBtn"><img class="k" data-ic="oni" alt=""><span class="l">Livre des Oni</span><em id="bookNew"></em></button>
       <button class="bt-sq ishi" id="optBtn"><img class="k" data-ic="gear" alt=""><span class="l">Réglages</span></button>
     </nav>
-    <span class="ver">v1.3.1</span>
+    <span class="ver">v1.4</span>
     <div class="opt" id="opt" role="dialog" aria-modal="true" aria-labelledby="optT"><div class="opt-p">
       <div class="opt-h"><img data-ic="gear" alt=""><h2 id="optT">Réglages</h2></div>
       <label class="sw"><span>Musique</span><input type="checkbox" id="oMus"><i aria-hidden="true"></i></label>
       <label class="sw"><span>Effets sonores</span><input type="checkbox" id="oSfx"><i aria-hidden="true"></i></label>
       <div class="opt-b"><button class="btn" id="oFull">Plein écran</button><button class="btn" id="oReset">Effacer la progression</button></div>
-      <p class="cred">YokusoTD v1.3.1 · un tower defense de FireTalesHy<br>Effets d'attaque : pixelfx (licence MIT)</p>
+      <p class="cred">YokusoTD v1.4 · un tower defense de FireTalesHy<br>Effets d'attaque : pixelfx (licence MIT)</p>
       <button class="btn red" id="oClose">Fermer</button>
     </div></div>
   </div>
@@ -742,6 +761,10 @@ body.rot{position:absolute;top:0;transform:rotate(90deg);transform-origin:0 0}
   <div class="menu" id="chests">
     <div class="mhead"><button class="btn" id="chBack" aria-label="Retour au menu">‹ Menu</button><h2>Coffres <span>宝蔵</span></h2><span class="koban" id="chKoban"></span></div>
     <div class="mbody" id="chBody"></div>
+  </div>
+  <div class="menu" id="inf">
+    <div class="mhead"><button class="btn" id="infBack" aria-label="Retour au menu">‹ Menu</button><h2>Mode infini <span>無限</span></h2><span class="koban" id="infKoban"></span></div>
+    <div class="mbody" id="infBody"></div>
   </div>
   <div class="menu" id="team">
     <div class="mhead"><button class="btn" id="tmBack" aria-label="Retour au menu">‹ Menu</button><h2>Équipe <span>編成</span></h2><span class="koban" id="tmKoban"></span></div>
@@ -1419,10 +1442,10 @@ function useLevel(i){G=getLevel(i);LV=G.L;setPath(LV.path);LANTERNS=G.lan;SHRINE
 
 /* ---------- sauvegarde ---------- */
 const SKEY='kimon-save-v3',START=['guerrier','archer','mage','moine','ninja'];
-let SV={opt:{mus:1,sfx:1},cards:{},koban:0,unl:START.slice(),deck:START.slice(),rank:{},stars:{},chests:[],offer:0,best:{},seen:[],bookSeen:0};
+let SV={opt:{mus:1,sfx:1},inf:{},cards:{},koban:0,unl:START.slice(),deck:START.slice(),rank:{},stars:{},chests:[],offer:0,best:{},seen:[],bookSeen:0};
 try{let s=JSON.parse(localStorage.getItem(SKEY)||'null');if(!s){const o=JSON.parse(localStorage.getItem('kimon-save-v2')||'null');if(o)s={koban:o.koban||0,stars:o.stars||{},chests:o.chests||[],offer:o.offer||0}}if(s)SV=Object.assign(SV,s)}catch(e){}
 SV.chests=(SV.chests||[]).map(c=>({...c,t:{wood:'bois',laque:'marbre',or:'rubis'}[c.t]||c.t})).filter(c=>CHEST[c.t]);SV.unl=SV.unl.filter(k=>CL[k]);if(!SV.cards||typeof SV.cards!='object')SV.cards={};if(!Array.isArray(SV.seen))SV.seen=[];for(const id in SV.stars){const L=LEVELS[id-1];if(!L)continue;for(const k of[...L.roster,L.boss,...Object.values(L.mid||{})])if(k&&ONI[k]&&!SV.seen.includes(k))SV.seen.push(k);if(L.boss=='tsuchigumo'&&!SV.seen.includes('kumo'))SV.seen.push('kumo')}SV.deck=[0,1,2,3,4].map(i=>CL[SV.deck[i]]&&SV.unl.includes(SV.deck[i])?SV.deck[i]:null);
-if(!SV.opt||typeof SV.opt!='object')SV.opt={mus:1,sfx:1};
+if(!SV.opt||typeof SV.opt!='object')SV.opt={mus:1,sfx:1};if(!SV.inf||typeof SV.inf!='object')SV.inf={};
 const save=()=>{try{localStorage.setItem(SKEY,JSON.stringify(SV))}catch(e){}};
 const unlockedLv=i=>i==0||!!SV.stars[i];
 
@@ -1432,7 +1455,7 @@ function reset(li){
   LI=li;useLevel(li);
   S={lives:20,gold:LV.gold+30*(LV.id-1)+SV.offer*25,wave:0,N:LV.waves,enemies:[],towers:[],proj:[],parts:[],bolts:[],texts:[],fx:[],queue:[],spawnT:0,waveOn:false,
     speed:1,paused:false,t:0,night:0,ink:100,brush:false,stroke:null,slash:null,shake:0,flash:0,flashC:[1,1,1],sepia:0,sel:null,boom:[],vfx:[],done:false};
-  seed=(Math.random()*1e9)|0;closeMenus();lastUI='';ui();preview();$('#waveMax').textContent='/'+S.N;S.endless=false;S.kRun=0;S.kills=0;S.leak={};S.chRun=[];S.newBest=false;
+  seed=(Math.random()*1e9)|0;closeMenus();lastUI='';ui();preview();$('#waveMax').textContent='/'+S.N;S.endless=false;S.inf=false;S.kRun=0;S.kills=0;S.leak={};S.chRun=[];S.newBest=false;
 }
 const endlessKoban=n=>4+Math.floor((n-21)/3);// 21→4, 30→7, 40→10 : ~60 koban (un coffre en bois) toutes les 10 vagues au début
 const hpMul=n=>(1+.17*(n-1)+.009*(n-1)*(n-1))*(1+(LV.hp||.26)*(LV.id-1)*Math.min(1,n/7))*(n>20?Math.pow(1.06,n-20):1);
@@ -1624,7 +1647,10 @@ function update(rdt){
     if(S.slash){S.slash.life-=rdt;if(S.slash.life<=0)S.slash=null}
   }else S.bolts.length=0;
   if(S.waveOn&&!S.queue.length&&!S.enemies.length){S.waveOn=false;const b=15+Math.min(S.wave,40)*4;S.gold+=b;floatText(W/2,SKY+20,'+'+b,'#ffd45a');sfx('coin');
-    if(S.endless&&!S.sim){const k=endlessKoban(S.wave);SV.koban+=k;S.kRun+=k;const nb=S.wave>(SV.best[LV.id]||0);SV.best[LV.id]=Math.max(SV.best[LV.id]||0,S.wave);S.newBest=S.newBest||nb;let ct=null;if(S.wave%10==0&&S.wave>20){ct=CHTIER[Math.min(4,(S.wave-30)/10)];SV.chests.push({t:ct});(S.chRun=S.chRun||[]).push({t:ct,why:`Vague ${S.wave} tenue`})}save();bannerTxt('∞',`Vague ${S.wave} tenue · +${k} koban`+(ct?` · ${CHEST[ct].name}`:''))}
+    if(S.endless&&!S.sim){const k=S.inf&&S.wave<=20?0:endlessKoban(S.wave);SV.koban+=k;S.kRun+=k;const rec=S.inf?SV.inf:SV.best,nb=S.wave>(rec[LV.id]||0);rec[LV.id]=Math.max(rec[LV.id]||0,S.wave);S.newBest=S.newBest||nb;let ct=null;
+      // mode infini séparé : un coffre toutes les 10 vagues, de plus en plus rare (10 bois, 20 pierre, 30 marbre, 40 rubis, 50+ légendaire)
+      if(S.wave%10==0&&(S.inf||S.wave>20)){ct=S.inf?CHTIER[Math.min(4,S.wave/10-1)]:CHTIER[Math.min(4,(S.wave-30)/10)];SV.chests.push({t:ct});(S.chRun=S.chRun||[]).push({t:ct,why:`Vague ${S.wave} tenue`});sfx('win')}
+      save();bannerTxt('∞',`Vague ${S.wave} tenue`+(k?` · +${k} koban`:'')+(ct?` · ${CHEST[ct].name} !`:S.inf?` · coffre à la vague ${Math.ceil((S.wave+1)/10)*10}`:''))}
     if(S.wave>=S.N){win();return}
     preview()}
   if(!S.sim)ui();
@@ -1839,6 +1865,15 @@ const SIDE=.3;
 let ROT=false;// portrait sur téléphone : toute l'interface pivote d'un quart de tour, le jeu reste en paysage
 const lrect=el=>{const r=el.getBoundingClientRect();if(!ROT)return r;const vw=innerWidth;return{left:r.top,top:vw-r.right,right:r.bottom,bottom:vw-r.left,width:r.height,height:r.width}};
 const loc=ev=>ROT?[ev.clientY,innerWidth-ev.clientX]:[ev.clientX,ev.clientY];
+{let sc=null,mom=0,noClick=0;addEventListener('click',ev=>{if(performance.now()<noClick){ev.stopPropagation();ev.preventDefault()}},true);const scrollable=el=>{for(;el&&el!==document.body;el=el.parentElement){const cs=getComputedStyle(el);if(/auto|scroll/.test(cs.overflowY+cs.overflowX)&&(el.scrollHeight>el.clientHeight+1||el.scrollWidth>el.clientWidth+1))return el}return null};
+  addEventListener('pointerdown',e=>{if(!ROT||e.pointerType=='mouse')return;const el=scrollable(e.target);if(!el)return;cancelAnimationFrame(mom);const[x,y]=loc(e);sc={el,id:e.pointerId,x,y,st:el.scrollTop,sl:el.scrollLeft,moved:false,vy:0,vx:0,lx:x,ly:y,lt:performance.now()}},true);
+  addEventListener('pointermove',e=>{if(!sc||e.pointerId!=sc.id)return;const[x,y]=loc(e),now=performance.now(),dt=Math.max(1,now-sc.lt);
+    if(!sc.moved&&Math.hypot(x-sc.x,y-sc.y)>8)sc.moved=true;if(!sc.moved)return;
+    sc.el.scrollTop=sc.st-(y-sc.y);sc.el.scrollLeft=sc.sl-(x-sc.x);sc.vy=.8*sc.vy+.2*(y-sc.ly)/dt;sc.vx=.8*sc.vx+.2*(x-sc.lx)/dt;sc.lx=x;sc.ly=y;sc.lt=now},true);
+  const end=e=>{if(!sc||e.pointerId!=sc.id)return;const s=sc;sc=null;if(!s.moved)return;
+    noClick=performance.now()+400;
+    let vy=s.vy*16,vx=s.vx*16;const glide=()=>{if(Math.abs(vy)<.4&&Math.abs(vx)<.4)return;s.el.scrollTop-=vy;s.el.scrollLeft-=vx;vy*=.93;vx*=.93;mom=requestAnimationFrame(glide)};mom=requestAnimationFrame(glide)};
+  addEventListener('pointerup',end,true);addEventListener('pointercancel',end,true)}
 function fit(){const vw=innerWidth,vh=innerHeight;ROT=vh>vw*1.1&&Math.min(vw,vh)<900;document.body.classList.toggle('rot',ROT);
   const bs=document.body.style;if(ROT){bs.width=vh+'px';bs.height=vw+'px';bs.left=vw+'px'}else{bs.width=bs.height=bs.left=''}
   const w=ROT?vh:vw,h=ROT?vw:vh,on=state=='play',ratio=16/9+(on?SIDE:0);let sh=Math.min(h,w/ratio);const sw=sh*16/9,tw=sw+(on?sh*SIDE:0),l=(w-tw)/2,t=(h-sh)/2;SW=sw;SH=sh;
@@ -1915,7 +1950,7 @@ function bannerTxt(k,t){const b=$('#banner');$('#banK').textContent=k;$('#banT')
 /* ---------- écrans & méta ---------- */
 let state='title';
 const show=(id,on)=>$(id).classList.toggle('show',on);
-function hideAll(){['#title','#end','#levels','#chests','#team','#book'].forEach(i=>show(i,false))}
+function hideAll(){['#title','#end','#levels','#chests','#team','#book','#inf'].forEach(i=>show(i,false))}
 const setState=s=>{state=s;fit()};
 const kobanHTML=()=>`<img src="${KOBAN}" alt="">${SV.koban} koban`;
 function goTitle(){hideAll();setState('title');$('#hud').classList.add('off');show('#title',true);$('#chestCount').textContent=SV.chests.length||'';$('#chestCount').style.display=SV.chests.length?'':'none';
@@ -2256,10 +2291,10 @@ function win(){S.brush=false;if(S.sim){state='over';S.result='win';return}closeM
   showEnd('win',{stats:stat(ic('heart'),S.lives,' vies')+stat(ic('flag'),S.N,' vagues')+stat(ic('sword'),S.kills||0,' Oni vaincus')+stat('⏱',fmtT(S.t),' de combat'),rew:cards.join('')});
   sfx('win');setTimeout(()=>sfx('taiko'),250)}
 function gameOver(){S.brush=false;if(S.sim){state='over';S.result='lose';return}closeMenus();setState('over');
-  if(S.endless){lastEnd={win:1,canGo:false};const bw=SV.best[LV.id]||0;$('#endK').textContent='∞';$('#endT').firstChild.textContent='Fin du mode infini';$('#endS').textContent=`${LV.name} · tombé à la vague ${S.wave}`;$('#endStars').innerHTML='';
-    const cards=[kobanCard(S.kRun,'Gagnés en mode infini',0)];(S.chRun||[]).forEach((c,n)=>cards.push(chestCard(c.t,c.why,n+1)));
+  if(S.endless){const inf=S.inf;lastEnd={win:1,canGo:false,inf};const bw=(inf?SV.inf:SV.best)[LV.id]||0;$('#endK').textContent='∞';$('#endT').firstChild.textContent='Fin du mode infini';$('#endS').textContent=`${LV.name} · tombé à la vague ${S.wave}`;$('#endStars').innerHTML='';
+    const cards=inf&&!S.kRun?[]:[kobanCard(S.kRun,'Gagnés en mode infini',0)];(S.chRun||[]).forEach((c,n)=>cards.push(chestCard(c.t,c.why,n+1)));
     if(S.newBest)cards.push(`<div class="ec" style="animation-delay:${.9+cards.length*.18}s"><span class="tag">Record</span><div class="art"><img src="${ICO.flag}" alt=""></div><b>Vague ${bw}</b><small>Nouveau record sur cette carte</small></div>`);
-    $('#endP').textContent=`Tu as tenu ${Math.max(0,S.wave-21)} vague${S.wave-21>1?'s':''} au-delà de la 20e. Tout le butin est déjà dans tes coffres.`;
+    $('#endP').textContent=inf?`Tu as tenu ${S.wave-1} vague${S.wave-1>1?'s':''}. Prochain coffre à la vague ${Math.ceil(S.wave/10)*10}. Tout le butin est déjà dans tes coffres.`:`Tu as tenu ${Math.max(0,S.wave-21)} vague${S.wave-21>1?'s':''} au-delà de la 20e. Tout le butin est déjà dans tes coffres.`;
     showEnd('endless',{stats:stat(ic('flag'),S.wave-1,' vagues tenues')+stat(ic('star'),bw,' record')+stat(ic('sword'),S.kills||0,' Oni vaincus')+stat('⏱',fmtT(S.t),' de combat'),rew:cards.join('')});sfx('lose');return}
   lastEnd={win:0};
   $('#endK').textContent='滅';$('#endT').firstChild.textContent='Le sanctuaire est tombé';$('#endS').textContent=`${LV.name} · vague ${S.wave}/${S.N}`;$('#endStars').innerHTML='';
@@ -2270,12 +2305,25 @@ function gameOver(){S.brush=false;if(S.sim){state='over';S.result='lose';return}
   showEnd('lose',{stats:stat(ic('flag'),S.wave,`/${S.N} vagues`)+stat(ic('sword'),S.kills||0,' Oni vaincus')+stat('⏱',fmtT(S.t),' de combat'),rew:cards.join('')});sfx('lose')}
 function endButtons(){const a=$('#endActs'),b=[];if(lastEnd.win)$('#endRewH').innerHTML='<span>宝</span>Butin';
   if(lastEnd.win&&lastEnd.canGo)b.push(`<button class="btn red" id="eInf"><span class="k">∞</span>Continuer en mode infini</button>`);
-  if(lastEnd.win){if(LI<LEVELS.length-1)b.push(`<button class="btn red" id="eNext">Niveau suivant</button>`)}
+  if(lastEnd.inf)b.push(`<button class="btn red" id="eInfAgain"><span class="k">∞</span>Rejouer</button>`,`<button class="btn" id="eInfMenu">Autre terrain</button>`);
+  else if(lastEnd.win){if(LI<LEVELS.length-1)b.push(`<button class="btn red" id="eNext">Niveau suivant</button>`)}
   else b.push(`<button class="btn red" id="eRetry"><span class="k">再</span>Réessayer</button>`);
   if(SV.chests.length)b.push(`<button class="btn gold" id="eChests"><span class="k">宝</span>Mes coffres (${SV.chests.length})</button>`);
   b.push(`<button class="btn" id="eTeam"><span class="k">編</span>Équipe</button>`,`<button class="btn" id="eMap">Carte du pays</button>`);a.innerHTML=b.join('');
   const on=(id,f)=>{const e=$(id);if(e)e.onclick=f};
-  on('#eNext',()=>startLevel(LI+1));on('#eRetry',()=>startLevel(LI));on('#eMap',()=>goLevels());on('#eTeam',goTeam);on('#eInf',goEndless);on('#eChests',goChests)}
+  on('#eNext',()=>startLevel(LI+1));on('#eRetry',()=>startLevel(LI));on('#eMap',()=>goLevels());on('#eTeam',goTeam);on('#eInf',goEndless);on('#eInfAgain',()=>startInfinite(LI));on('#eInfMenu',goInf);on('#eChests',goChests)}
+function startInfinite(i){if(!SV.deck.some(Boolean)){goTeam();return}startLevel(i);S.endless=true;S.inf=true;S.N=Infinity;S.kRun=0;S.chRun=[];S.newBest=false;
+  $('#waveMax').textContent='/∞';lastUI='';ui();preview();bannerTxt('∞',`Mode infini — ${LV.name} · record : vague ${SV.inf[LV.id]||0}`)}
+function goInf(){hideAll();setState('menu');$('#hud').classList.add('off');show('#inf',true);renderInf()}
+function renderInf(){$('#infKoban').innerHTML=kobanHTML();
+  const lad=CHTIER.map((t,i)=>`<div class="ir" style="--cc:${CHEST[t].cc[0]}"><img src="${CIMG[t][0]}" alt=""><div><b>Vague ${(i+1)*10}${i==4?' et +':''}</b><small>${CHEST[t].name}</small></div></div>`).join('');
+  $('#infBody').innerHTML=`<p class="inf-in">Pas de dernière vague : tiens le plus longtemps possible. Les Oni se renforcent à chaque vague et des boss surgissent régulièrement. <b>Toutes les 10 vagues, tu gagnes un coffre</b>, de plus en plus rare :</p>
+    <div class="inf-ladder">${lad}</div><h3 class="inf-h">Choisis ton terrain <span>戦場</span></h3>
+    <div class="inf-grid">${LEVELS.map((L,i)=>{const lk=!unlockedLv(i),r=SV.inf[L.id]||0;return`<button class="ilv${lk?' lk':''}" data-i="${i}"${lk?' disabled':''}><span class="th" data-th="${i}"></span><span class="nm"><small>Terrain ${i+1}</small>${L.name}</span><span class="irc">${lk?`Termine le niveau ${i} pour l'ouvrir`:r?`${ic('flag')}Record : vague ${r}`:'Pas encore tenté'}</span></button>`}).join('')}</div>`;
+  $('#infBody').querySelectorAll('.ilv:not(.lk)').forEach(b=>b.onclick=()=>{uiSnd('pop-bubble');initAudio();startInfinite(+b.dataset.i)});
+  // vignettes : générées une à une pour ne pas figer le menu
+  const th=[...$('#infBody').querySelectorAll('.ilv:not(.lk) .th')];(function step(){if(!th.length||!$('#inf').classList.contains('show')&&state!='menu')return;const el=th.shift(),i=+el.dataset.th;if(GEN[i]){el.style.backgroundImage=`url(${GEN[i].thumb})`;step();return}
+    setTimeout(()=>{el.style.backgroundImage=`url(${getLevel(i).thumb})`;step()},30)})()}
 function goEndless(){hideAll();S.endless=true;S.N=Infinity;S.kRun=0;S.chRun=[];S.newBest=false;$('#waveMax').textContent='/∞';setState('play');renderDeck();$('#hud').classList.remove('off');lastUI='';ui();preview();bannerTxt('∞','Mode infini : chaque vague tenue rapporte des koban')}
 
 /* ---------- entrées ---------- */
@@ -2321,7 +2369,7 @@ $('#muteBtn').onclick=e=>{e.stopPropagation();initAudio();muted=!muted;if(master
 $('#playBtn').onclick=()=>{uiSnd('click-crisp-primary');initAudio();goLevels()};$('#bookBtn').onclick=()=>{uiSnd('pop-bubble');initAudio();goBook()};$('#bkBack').onclick=()=>{uiSnd('nav-back');goTitle()};
 $('#tMute').onclick=()=>{initAudio();muted=!muted;if(master)master.gain.value=muted?0:.7;$('#tMute').setAttribute('aria-pressed',muted);$('#tMute').setAttribute('aria-label',muted?'Remettre le son':'Couper le son');$('#muteBtn').style.opacity=muted?.5:1;$('#tMute img').src=ICO[muted?'mute':'snd'];uiSnd('pop-bubble')};
 $('#chestBtn').onclick=()=>{uiSnd('pop-bubble');initAudio();goChests()};
-$('#teamBtn').onclick=()=>{uiSnd('pop-bubble');initAudio();goTeam()};
+$('#teamBtn').onclick=()=>{uiSnd('pop-bubble');initAudio();goTeam()};$('#infBtn').onclick=()=>{uiSnd('pop-bubble');initAudio();goInf()};$('#infBack').onclick=()=>{uiSnd('nav-back');goTitle()};
 {const O=$('#opt'),oR=$('#oReset'),fsOk=!!(document.documentElement.requestFullscreen||document.documentElement.webkitRequestFullscreen);
   const sync=()=>{$('#oMus').checked=!!SV.opt.mus;$('#oSfx').checked=!!SV.opt.sfx;$('#oFull').textContent=document.fullscreenElement?'Quitter le plein écran':'Plein écran';$('#oFull').style.display=fsOk?'':'none'};
   const close=()=>{O.classList.remove('show');oR.classList.remove('warn');oR.textContent='Effacer la progression';$('#optBtn').focus()};
@@ -2423,7 +2471,7 @@ function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;bossUI();
   acc+=dt;fc++;if(acc>2){const fps=fc/acc;if(fps<40&&steps>6)steps-=2;else if(fps>57&&steps<12)steps+=2;acc=0;fc=0}
   requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
-window.KIMON={get S(){return S},get SV(){return SV},set SV(v){SV=v},build,canPlace,bestSpot,startWave,startLevel,upgrade,simulate,vfx,FXM,goChests,goLevels,goTeam,openCard,LEVELS,getLevel,save,SPR,USPR,CL};
+window.KIMON={startInfinite,goInf,get S(){return S},get SV(){return SV},set SV(v){SV=v},build,canPlace,bestSpot,startWave,startLevel,upgrade,simulate,vfx,FXM,goChests,goLevels,goTeam,openCard,LEVELS,getLevel,save,SPR,USPR,CL};
 }
 }
 </script>

@@ -2,8 +2,16 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>YokusoTD · La Porte des Oni</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0c080d">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="YokusoTD">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;800&family=Yuji+Syuku&display=swap" rel="stylesheet">
@@ -477,6 +485,7 @@ body.rot .mbody,body.rot .paths,body.rot .opt-p,body.rot #end .end2{touch-action
 .opt .btn{width:100%;height:2.4em;color:var(--washi);background:var(--ink2)}
 .opt #oReset.warn{background:var(--red)}
 .opt .btn.red{background:var(--red)}
+.inst{margin:0;font-size:.78em;line-height:1.4;opacity:.85}
 .cred{margin:.2em 0 0;font-size:.72em;opacity:.7;text-align:center;line-height:1.35}
 @media (max-aspect-ratio:1.5){.dock{gap:.45em}.dock .bt-sq{width:4.8em}}
 /* tuiles de coin : laque, gros kanji au pinceau */
@@ -729,13 +738,14 @@ body.rot .mbody,body.rot .paths,body.rot .opt-p,body.rot #end .end2{touch-action
       <button class="bt-sq sumi" id="bookBtn"><img class="k" data-ic="oni" alt=""><span class="l">Livre des Oni</span><em id="bookNew"></em></button>
       <button class="bt-sq ishi" id="optBtn"><img class="k" data-ic="gear" alt=""><span class="l">Réglages</span></button>
     </nav>
-    <span class="ver">v1.4</span>
+    <span class="ver">v1.4.1</span>
     <div class="opt" id="opt" role="dialog" aria-modal="true" aria-labelledby="optT"><div class="opt-p">
       <div class="opt-h"><img data-ic="gear" alt=""><h2 id="optT">Réglages</h2></div>
       <label class="sw"><span>Musique</span><input type="checkbox" id="oMus"><i aria-hidden="true"></i></label>
       <label class="sw"><span>Effets sonores</span><input type="checkbox" id="oSfx"><i aria-hidden="true"></i></label>
-      <div class="opt-b"><button class="btn" id="oFull">Plein écran</button><button class="btn" id="oReset">Effacer la progression</button></div>
-      <p class="cred">YokusoTD v1.4 · un tower defense de FireTalesHy<br>Effets d'attaque : pixelfx (licence MIT)</p>
+      <label class="sw" id="oFullL"><span>Plein écran automatique</span><input type="checkbox" id="oFs"><i aria-hidden="true"></i></label>
+      <div class="opt-b"><button class="btn" id="oFull">Plein écran</button><button class="btn red" id="oInst" hidden>Installer l'appli (sans barre)</button><p class="inst" id="oInstTip" hidden></p><button class="btn" id="oReset">Effacer la progression</button></div>
+      <p class="cred">YokusoTD v1.4.1 · un tower defense de FireTalesHy<br>Effets d'attaque : pixelfx (licence MIT)</p>
       <button class="btn red" id="oClose">Fermer</button>
     </div></div>
   </div>
@@ -1445,7 +1455,7 @@ const SKEY='kimon-save-v3',START=['guerrier','archer','mage','moine','ninja'];
 let SV={opt:{mus:1,sfx:1},inf:{},cards:{},koban:0,unl:START.slice(),deck:START.slice(),rank:{},stars:{},chests:[],offer:0,best:{},seen:[],bookSeen:0};
 try{let s=JSON.parse(localStorage.getItem(SKEY)||'null');if(!s){const o=JSON.parse(localStorage.getItem('kimon-save-v2')||'null');if(o)s={koban:o.koban||0,stars:o.stars||{},chests:o.chests||[],offer:o.offer||0}}if(s)SV=Object.assign(SV,s)}catch(e){}
 SV.chests=(SV.chests||[]).map(c=>({...c,t:{wood:'bois',laque:'marbre',or:'rubis'}[c.t]||c.t})).filter(c=>CHEST[c.t]);SV.unl=SV.unl.filter(k=>CL[k]);if(!SV.cards||typeof SV.cards!='object')SV.cards={};if(!Array.isArray(SV.seen))SV.seen=[];for(const id in SV.stars){const L=LEVELS[id-1];if(!L)continue;for(const k of[...L.roster,L.boss,...Object.values(L.mid||{})])if(k&&ONI[k]&&!SV.seen.includes(k))SV.seen.push(k);if(L.boss=='tsuchigumo'&&!SV.seen.includes('kumo'))SV.seen.push('kumo')}SV.deck=[0,1,2,3,4].map(i=>CL[SV.deck[i]]&&SV.unl.includes(SV.deck[i])?SV.deck[i]:null);
-if(!SV.opt||typeof SV.opt!='object')SV.opt={mus:1,sfx:1};if(!SV.inf||typeof SV.inf!='object')SV.inf={};
+if(!SV.opt||typeof SV.opt!='object')SV.opt={mus:1,sfx:1};if(SV.opt.fs==null)SV.opt.fs=1;if(!SV.inf||typeof SV.inf!='object')SV.inf={};
 const save=()=>{try{localStorage.setItem(SKEY,JSON.stringify(SV))}catch(e){}};
 const unlockedLv=i=>i==0||!!SV.stars[i];
 
@@ -1862,6 +1872,13 @@ function composite(T){
 /* ---------- interface ---------- */
 const stage=$('#stage'),side=$('#side'),dragEl=$('#drag');let SW=0,SH=0;
 const SIDE=.3;
+/* plein écran : automatique au premier toucher sur mobile (le geste est obligatoire), appli installable (manifest) */
+const MOBILE=matchMedia('(pointer:coarse)').matches,IOS=/iP(hone|ad|od)/.test(navigator.userAgent),STANDALONE=matchMedia('(display-mode: fullscreen),(display-mode: standalone)').matches||navigator.standalone===true;
+let instEv=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();instEv=e});
+function goFull(){const d=document.documentElement,rq=d.requestFullscreen||d.webkitRequestFullscreen;if(!rq||document.fullscreenElement||document.webkitFullscreenElement)return;
+  try{const p=rq.call(d,{navigationUI:'hide'});if(p&&p.then)p.then(()=>screen.orientation&&screen.orientation.lock&&screen.orientation.lock('landscape').catch(()=>{})).catch(()=>{})}catch(e){}}
+addEventListener('pointerup',e=>{if(MOBILE&&!STANDALONE&&e.pointerType!='mouse'&&SV.opt&&SV.opt.fs)goFull()},true);
+if('serviceWorker'in navigator&&location.protocol=='https:')addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 let ROT=false;// portrait sur téléphone : toute l'interface pivote d'un quart de tour, le jeu reste en paysage
 const lrect=el=>{const r=el.getBoundingClientRect();if(!ROT)return r;const vw=innerWidth;return{left:r.top,top:vw-r.right,right:r.bottom,bottom:vw-r.left,width:r.height,height:r.width}};
 const loc=ev=>ROT?[ev.clientY,innerWidth-ev.clientX]:[ev.clientX,ev.clientY];
@@ -2371,12 +2388,16 @@ $('#tMute').onclick=()=>{initAudio();muted=!muted;if(master)master.gain.value=mu
 $('#chestBtn').onclick=()=>{uiSnd('pop-bubble');initAudio();goChests()};
 $('#teamBtn').onclick=()=>{uiSnd('pop-bubble');initAudio();goTeam()};$('#infBtn').onclick=()=>{uiSnd('pop-bubble');initAudio();goInf()};$('#infBack').onclick=()=>{uiSnd('nav-back');goTitle()};
 {const O=$('#opt'),oR=$('#oReset'),fsOk=!!(document.documentElement.requestFullscreen||document.documentElement.webkitRequestFullscreen);
-  const sync=()=>{$('#oMus').checked=!!SV.opt.mus;$('#oSfx').checked=!!SV.opt.sfx;$('#oFull').textContent=document.fullscreenElement?'Quitter le plein écran':'Plein écran';$('#oFull').style.display=fsOk?'':'none'};
+  const sync=()=>{$('#oFs').checked=!!SV.opt.fs;$('#oFullL').style.display=fsOk&&!STANDALONE?'':'none';$('#oInst').style.display=!instEv||STANDALONE?'none':'';
+    const tip=$('#oInstTip');tip.hidden=STANDALONE||!!instEv||!MOBILE;tip.textContent=IOS?"Pour jouer sans aucune barre : bouton Partager puis « Sur l'écran d'accueil »."
+      :"Pour jouer sans aucune barre : ouvre la page dans Chrome (menu ⋮ puis « Ouvrir dans Chrome »), puis menu ⋮ et « Ajouter à l'écran d'accueil ».";$('#oMus').checked=!!SV.opt.mus;$('#oSfx').checked=!!SV.opt.sfx;$('#oFull').textContent=document.fullscreenElement?'Quitter le plein écran':'Plein écran';$('#oFull').style.display=fsOk?'':'none'};
   const close=()=>{O.classList.remove('show');oR.classList.remove('warn');oR.textContent='Effacer la progression';$('#optBtn').focus()};
   $('#optBtn').onclick=()=>{uiSnd('pop-bubble');initAudio();sync();O.classList.add('show');$('#oClose').focus()};
   $('#oClose').onclick=()=>{uiSnd('nav-back');close()};O.onclick=e=>{if(e.target==O)close()};O.onkeydown=e=>{if(e.key=='Escape')close()};
   $('#oMus').onchange=e=>{SV.opt.mus=e.target.checked?1:0;save();if(musG)musG.gain.value=SV.opt.mus?.32:0};
   $('#oSfx').onchange=e=>{SV.opt.sfx=e.target.checked?1:0;save();if(sfxG)sfxG.gain.value=SV.opt.sfx?.55:0;uiSnd('pop-bubble')};
+  $('#oFs').onchange=e=>{SV.opt.fs=e.target.checked?1:0;save();if(SV.opt.fs)goFull()};
+  $('#oInst').onclick=async()=>{if(!instEv)return;instEv.prompt();try{await instEv.userChoice}catch(e){}instEv=null;sync()};
   $('#oFull').onclick=()=>{const d=document.documentElement;if(document.fullscreenElement)document.exitFullscreen();else(d.requestFullscreen||d.webkitRequestFullscreen).call(d).then(()=>screen.orientation&&screen.orientation.lock&&screen.orientation.lock('landscape').catch(()=>{})).catch(()=>{});setTimeout(sync,300)};
   oR.onclick=()=>{if(!oR.classList.contains('warn')){oR.classList.add('warn');oR.textContent='Tout effacer ? Touche encore';return}
     try{localStorage.removeItem(SKEY);localStorage.removeItem('kimon-save-v2')}catch(e){}location.reload()}}

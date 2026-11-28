@@ -162,11 +162,15 @@ html,body{margin:0;height:100%;background:#0c080d;overflow:hidden;font:600 16px/
 #card .row .btn{flex:1;height:2.5em;font-size:.92em;color:var(--washi)}
 #card .btn.dark{background:var(--ink2)}
 #card .x{position:absolute;right:.6em;bottom:.6em}
-#card .row{padding-top:.55em;margin-top:.35em;border-top:1px dashed rgba(28,18,32,.22)}
-#card #sellB{flex:1.4;background:#4a2a26}
+/* Vendre et Fermer en haut, loin des boutons d'amélioration (en bas) */
+#card .ctop{display:flex;align-items:center;gap:.5em;padding-bottom:.5em;margin-bottom:.45em;border-bottom:1px dashed rgba(28,18,32,.22)}
+#card .ctop .btn{height:2.2em;font-size:.85em;color:var(--washi)}
+#card .ctop .seal{position:static;margin-left:auto;width:1.7em;height:1.7em;font-size:1.1em;line-height:1.6;flex:none}
+#card #sellB{background:#4a2a26;padding:0 .8em}
+#card .hd{padding-right:0}
 #card #sellB.warn{background:var(--red);animation:sellw .5s ease-in-out infinite alternate}
 @keyframes sellw{to{filter:brightness(1.18)}}
-#card #closeB{flex:0 0 3em}
+#card #closeB{flex:0 0 2.6em}
 @media (pointer:coarse){#card .btn,.pth .btn{min-height:40px}}
 @media (max-height:560px){#card{padding:.5em .6em}#card .hd img{width:2.8em;height:2.8em}#card dl{margin:.3em 0;font-size:.82em}.pth{padding:.35em .3em;gap:.15em}.pth img{width:2.6em;height:2.2em}.pth small{font-size:.72em}}
 /* screens */
@@ -706,13 +710,13 @@ body.rot{position:absolute;top:0;transform:rotate(90deg);transform-origin:0 0}
       <button class="bt-sq sumi" id="bookBtn"><img class="k" data-ic="oni" alt=""><span class="l">Livre des Oni</span><em id="bookNew"></em></button>
       <button class="bt-sq ishi" id="optBtn"><img class="k" data-ic="gear" alt=""><span class="l">Réglages</span></button>
     </nav>
-    <span class="ver">v1.3</span>
+    <span class="ver">v1.3.1</span>
     <div class="opt" id="opt" role="dialog" aria-modal="true" aria-labelledby="optT"><div class="opt-p">
       <div class="opt-h"><img data-ic="gear" alt=""><h2 id="optT">Réglages</h2></div>
       <label class="sw"><span>Musique</span><input type="checkbox" id="oMus"><i aria-hidden="true"></i></label>
       <label class="sw"><span>Effets sonores</span><input type="checkbox" id="oSfx"><i aria-hidden="true"></i></label>
       <div class="opt-b"><button class="btn" id="oFull">Plein écran</button><button class="btn" id="oReset">Effacer la progression</button></div>
-      <p class="cred">YokusoTD v1.3 · un tower defense de FireTalesHy<br>Effets d'attaque : pixelfx (licence MIT)</p>
+      <p class="cred">YokusoTD v1.3.1 · un tower defense de FireTalesHy<br>Effets d'attaque : pixelfx (licence MIT)</p>
       <button class="btn red" id="oClose">Fermer</button>
     </div></div>
   </div>
@@ -1880,9 +1884,8 @@ function openCard(t){closeMenus();S.sel=t;const C=CL[t.k],st=statsOf(t),rk=SV.ra
     else if(t.l>=MAXLV)body=`<img src="${iconOf(t.k,t.l,b)}" alt=""><b>${B.name}</b>${pips(5,1)}<small>Maîtrise absolue</small><button class="btn red" disabled>Niveau max</button>`;
     else{const nl=t.l+1,c=B.up[t.l];body=`<img src="${ICONS[t.k+b+tierOf(nl)]}" alt=""><b>${B.name}${t.l?` · niv. ${nl}`:''}</b>${pips(t.l,on)}<small>${B.desc}</small><button class="btn red" data-b="${b}" ${S.gold<c?'disabled':''}>${t.l?'Améliorer':'Choisir'} ${ic('coin')}${c}</button>`}
     return`<div class="pth${on?' on':''}${off?' off':''}">${body}</div>`};
-  cardEl.innerHTML=`<div class="seal">${C.kj}</div><div class="hd"><img src="${iconOf(t.k,t.l,t.b)}" alt=""><div><h3>${t.l?C.br[t.b].name:C.name}</h3><small>${t.l?`${C.name} · niv. ${t.l}/5`:'Recrue · choisis une voie'}${rk?` · rang ${rk} (+${rk*10}%)`:''}</small></div></div>
-    <dl>${statRows(st,nx)}</dl><div class="paths">${col(0)}${col(1)}</div>
-    <div class="row"><button class="btn dark" id="sellB">Vendre ${ic('coin')}${Math.round(t.spent*.7)}</button><button class="btn dark" id="closeB" aria-label="Fermer">✕</button></div>`;
+  cardEl.innerHTML=`<div class="ctop"><button class="btn dark" id="sellB">Vendre ${ic('coin')}${Math.round(t.spent*.7)}</button><span class="seal">${C.kj}</span><button class="btn dark" id="closeB" aria-label="Fermer">✕</button></div><div class="hd"><img src="${iconOf(t.k,t.l,t.b)}" alt=""><div><h3>${t.l?C.br[t.b].name:C.name}</h3><small>${t.l?`${C.name} · niv. ${t.l}/5`:'Recrue · choisis une voie'}${rk?` · rang ${rk} (+${rk*10}%)`:''}</small></div></div>
+    <dl>${statRows(st,nx)}</dl><div class="paths">${col(0)}${col(1)}</div>`;
   cardEl.className='show '+(t.x<W/2?'r':'l');
   cardEl._at=performance.now();const fresh=()=>performance.now()-cardEl._at<350;// anti double-tap : la fiche vient d'être (re)dessinée
   cardEl.querySelectorAll('[data-b]').forEach(b=>b.onclick=e=>{e.stopPropagation();if(fresh())return;upgrade(t,+b.dataset.b)});
